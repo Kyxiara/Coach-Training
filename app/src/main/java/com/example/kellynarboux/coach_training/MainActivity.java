@@ -1,8 +1,10 @@
 package com.example.kellynarboux.coach_training;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,12 +17,21 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     TextView txtOutput;
-    Button bouton;
+    Button bouton, bouton2;
+    TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tts = new TextToSpeech(MainActivity.this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+
+            }
+        });
+        tts.setLanguage(Locale.FRENCH);
 
         txtOutput = (TextView) findViewById(R.id.text);
         bouton = (Button) findViewById(R.id.button);
@@ -32,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
                         "click",
                         Toast.LENGTH_SHORT).show();
                 startSpeechToText();
+            }
+        });
+
+        bouton2 = (Button) findViewById(R.id.button2);
+
+        bouton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tts.speak((String) txtOutput.getText(), TextToSpeech.QUEUE_ADD, null);
             }
         });
 
