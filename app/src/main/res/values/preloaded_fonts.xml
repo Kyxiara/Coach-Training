@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts">
+
+        <item>@font/creepster</item>
+        <item>@font/eater</item>
+        <item>@font/luckiest_guy</item>
+    </array>
+</resources>
