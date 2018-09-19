@@ -18,7 +18,10 @@
         </activity>
         <activity
             android:name=".CountExercise"
-            android:label="@string/title_activity_count_exercise"></activity>
+            android:label="@string/title_activity_count_exercise">
+        </activity>
     </application>
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
 </manifest>

@@ -1,12 +1,14 @@
 package com.example.kellynarboux.coach_training.Model;
 
+import android.util.Log;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class Exercise {
 
     // Regex to match vocal exercise
-    private static final Pattern p = Pattern.compile("\\D*(\\d+)\\s*(\\S+)s*");
+    private static final Pattern p = Pattern.compile("\\D*(\\d+)\\s*(\\S+)");
 
     public abstract String getName();
 
@@ -21,8 +23,17 @@ public abstract class Exercise {
         if (b) {
             if(m.group(2) != null){
                 String type = m.group(2);
+                if (type.endsWith("s")){
+                    type = type.substring(0,type.length()-1);
+                }
+                Log.d("type", type);
                 String count = m.group(1);
-                return new CountableExercise(CountableExerciseType.valueOf(type), Integer.parseInt(count));
+                try {
+                    return new CountableExercise(CountableExerciseType.valueOf(type), Integer.parseInt(count));
+                } catch (Exception e){
+                    Log.d("error", e.toString());
+                    return null;
+                }
             } else {
                 return null; // another exercise type
             }
