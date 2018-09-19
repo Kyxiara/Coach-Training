@@ -6,8 +6,8 @@ public class CountableExercise extends Exercise {
 
     private CountableExerciseType countableExerciseType;
 
-    public CountableExercise(String name, int count) {
-        this.countableExerciseType = CountableExerciseType.valueOf(name);
+    public CountableExercise(CountableExerciseType type, int count) {
+        this.countableExerciseType = type;
         this.count = count;
     }
 
@@ -18,5 +18,9 @@ public class CountableExercise extends Exercise {
     @Override
     public String getName() {
         return countableExerciseType.name();
+    }
+
+    public CountableExerciseType getCountableExerciseType() {
+        return countableExerciseType;
     }
 }
