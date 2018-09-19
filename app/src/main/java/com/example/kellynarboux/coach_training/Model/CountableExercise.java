@@ -4,7 +4,7 @@ public class CountableExercise extends Exercise {
 
     private int count;
 
-    CountableExercise(String name, int count) {
+    public CountableExercise(String name, int count) {
         super(name);
         this.count = count;
     }

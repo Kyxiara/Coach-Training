@@ -1,17 +1,15 @@
 package com.example.kellynarboux.coach_training;
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
-import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kellynarboux.coach_training.Model.CountableExercise;
 import com.example.kellynarboux.coach_training.Model.Exercise;
 
 import java.util.ArrayList;
@@ -19,7 +17,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     Button button_begin;
-    String textToExercise;
+    String textExercise;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +59,20 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    textToExercise = result.get(0);
+                    textExercise = result.get(0);
                 }
                 break;
             }
         }
-        Intent myIntent = new Intent(MainActivity.this,CountExercise.class);
-        myIntent.putExtra("mytext", textToExercise);
-        startActivity(myIntent);
+
+        Exercise exercise = Exercise.textToExercise(textExercise);
+
+        if (exercise != null) {
+            CountableExercise countableExercise = (CountableExercise) exercise;
+            Intent myIntent = new Intent(MainActivity.this, CountExercise.class);
+            myIntent.putExtra("myName", countableExercise.getName());
+            myIntent.putExtra("myNb", countableExercise.getCount());
+            startActivity(myIntent);
+        }
     }
 }
