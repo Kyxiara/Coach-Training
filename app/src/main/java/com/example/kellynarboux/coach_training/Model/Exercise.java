@@ -8,21 +8,17 @@ public abstract class Exercise {
     // Regex to match vocal exercise
     private static final Pattern p = Pattern.compile("\\D*(\\d+)\\s*(\\S+)");
 
-    private String name;
-
-    Exercise(String name){
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
+    public abstract String getName();
 
     public static Exercise textToExercise(String text) {
         Matcher m = p.matcher(text);
         boolean b = m.matches();
         if (b) {
-            return new CountableExercise(m.group(2), Integer.parseInt(m.group(1)));
+            if(m.group(2) != null){
+                return new CountableExercise(m.group(2), Integer.parseInt(m.group(1)));
+            } else {
+                return null; // another exercise type
+            }
         } else {
             return null; // no match for an exercise
         }

@@ -4,12 +4,19 @@ public class CountableExercise extends Exercise {
 
     private int count;
 
+    private CountableExerciseType countableExerciseType;
+
     public CountableExercise(String name, int count) {
-        super(name);
+        this.countableExerciseType = CountableExerciseType.valueOf(name);
         this.count = count;
     }
 
     public int getCount() {
         return count;
+    }
+
+    @Override
+    public String getName() {
+        return countableExerciseType.name();
     }
 }
