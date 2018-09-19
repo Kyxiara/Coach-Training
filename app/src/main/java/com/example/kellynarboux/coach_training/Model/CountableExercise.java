@@ -1,4 +1,4 @@
-package main.java.com.example.kellynarboux.coach_training.Model;
+package com.example.kellynarboux.coach_training.Model;
 
 public class CountableExercise extends Exercise {
 

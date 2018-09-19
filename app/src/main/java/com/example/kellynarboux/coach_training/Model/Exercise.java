@@ -1,4 +1,4 @@
-package main.java.com.example.kellynarboux.coach_training.Model;
+package com.example.kellynarboux.coach_training.Model;
 
 public abstract class Exercise {
 
@@ -11,4 +11,6 @@ public abstract class Exercise {
     public String getName() {
         return name;
     }
+
+    public abstract Exercise textToExercise(String text);
 }
