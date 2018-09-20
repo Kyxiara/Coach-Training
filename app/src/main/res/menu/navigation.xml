@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_profil"
+            android:title="@string/profil"
+            android:icon="@drawable/icon_profil"/>
 
-    <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        <item
+            android:id="@+id/navigation_calendrier"
+            android:title="@string/calendrier"
+            android:icon="@drawable/icon_calendrier"/>
+        <item
+            android:id="@+id/navigation_exercices"
+            android:title="@string/exercices"
+            android:icon="@drawable/icon_exercices"/>
 
-    <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
-
-    <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
-
+        <item
+            android:id="@+id/navigation_options"
+            android:title="@string/options"
+            android:icon="@drawable/icon_option"/>
+    </group>
 </menu>

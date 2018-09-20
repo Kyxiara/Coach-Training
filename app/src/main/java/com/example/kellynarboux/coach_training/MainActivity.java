@@ -3,28 +3,44 @@ package com.example.kellynarboux.coach_training;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
-import android.support.design.widget.TabLayout;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.kellynarboux.coach_training.Model.CountableExercise;
 import com.example.kellynarboux.coach_training.Model.Exercise;
-
+import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     Button button_begin;
     String textExercise;
+    Toolbar toolbar;
+    DrawerLayout mDrawerLayout;
+    ActionBarDrawerToggle mToogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        mToogle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+        mDrawerLayout.addDrawerListener(mToogle);
+        mToogle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToogle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
 
         button_begin = (Button) findViewById(R.id.button_begin);
         button_begin.setOnClickListener(new View.OnClickListener() {
@@ -33,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
                 startSpeechToText();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mToogle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void startSpeechToText() {
