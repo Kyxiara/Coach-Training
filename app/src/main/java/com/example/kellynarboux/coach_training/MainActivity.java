@@ -3,7 +3,9 @@ package com.example.kellynarboux.coach_training;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,13 +21,15 @@ import com.example.kellynarboux.coach_training.Model.Exercise;
 import android.support.v7.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     Button button_begin;
     String textExercise;
     Toolbar toolbar;
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle mToogle;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +43,11 @@ public class MainActivity extends AppCompatActivity {
         mToogle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToogle);
         mToogle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         mToogle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         button_begin = (Button) findViewById(R.id.button_begin);
         button_begin.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +108,37 @@ public class MainActivity extends AppCompatActivity {
             myIntent.putExtra("myName", countableExercise.getName());
             myIntent.putExtra("myNb", countableExercise.getCount());
             startActivity(myIntent);
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.navigation_profil :
+                startActivity(new Intent(MainActivity.this, ProfilActivity.class));
+                break;
+            case R.id.navigation_exercices :
+                break;
+            case R.id.navigation_calendrier :
+                startActivity(new Intent(MainActivity.this, CalendarActivity.class));
+                break;
+            case R.id.navigation_options :
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                break;
+        }
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            moveTaskToBack(true);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+            //super.onBackPressed();
         }
     }
 }

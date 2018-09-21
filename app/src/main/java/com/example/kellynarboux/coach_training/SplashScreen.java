@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class SplashScreen extends Activity {
     private ProgressBar mProgress;
+    private TextView textView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -15,6 +17,8 @@ public class SplashScreen extends Activity {
         // Show the splash screen
         setContentView(R.layout.activity_splash_screen);
         mProgress = (ProgressBar) findViewById(R.id.progress_bar);
+        textView = (TextView) findViewById(R.id.textViewProgress);
+
 
         // Start lengthy operation in a background thread
         new Thread(new Runnable() {
@@ -31,6 +35,7 @@ public class SplashScreen extends Activity {
             try {
                 Thread.sleep(500);
                 mProgress.setProgress(progress);
+                textView.setText(progress + "/100 %");
             } catch (Exception e) {
                 e.printStackTrace();
             }

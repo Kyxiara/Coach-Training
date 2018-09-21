@@ -4,47 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:id="@+id/drawer">
+    tools:context=".SettingActivity"
+    android:id="@+id/drawerSetting">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbarSetting"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@color/colorPrimary">
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="center_vertical"
-                android:text="Exercices"
+                android:text="Paramètres"
                 android:textColor="@android:color/background_light"
                 android:textSize="24sp"
                 tools:ignore="HardcodedText"
                 tools:layout_editor_absoluteX="16dp" />
         </android.support.v7.widget.Toolbar>
-
-        <Button
-            android:id="@+id/button_begin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="412dp"
-            android:text="Commencez"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="HardcodedText" />
-
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.NavigationView
         app:headerLayout="@layout/header"
-        android:id="@+id/nav_view"
+        android:id="@+id/nav_viewSetting"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
