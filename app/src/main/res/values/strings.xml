@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Coach-Training</string>
+    <string name="title_activity_count_exercise">CountExercise</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="profil">Profil</string>
+    <string name="calendrier">Calendrier</string>
+    <string name="exercices">Exercices</string>
+    <string name="options">Options</string>
+    <string name="menu">Menu</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="param_tres">Paramètres</string>
+</resources>
