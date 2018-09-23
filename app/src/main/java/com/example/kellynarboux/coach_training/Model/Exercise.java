@@ -1,4 +1,4 @@
-package com.example.kellynarboux.coach_training.Model;
+package com.example.kellynarboux.coach_training.model;
 
 import android.util.Log;
 

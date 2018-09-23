@@ -9,8 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.example.kellynarboux.coach_training.Model.CountableExercise;
-import com.example.kellynarboux.coach_training.Model.CountableExerciseType;
+import com.example.kellynarboux.coach_training.model.CountableExercise;
+import com.example.kellynarboux.coach_training.model.CountableExerciseType;
 
 import java.util.ArrayList;
 

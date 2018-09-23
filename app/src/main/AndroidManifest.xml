@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kellynarboux.coach_training">
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
@@ -11,6 +15,9 @@
         android:roundIcon="@mipmap/my_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_login"></activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".CountExercise" />
         <activity
@@ -29,7 +36,7 @@
 
         <activity android:name=".ProfilActivity" />
         <activity android:name=".CalendarActivity" />
-        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".SettingActivity" />
     </application>
 
 </manifest>

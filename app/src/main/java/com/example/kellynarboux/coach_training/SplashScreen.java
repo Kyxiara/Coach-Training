@@ -35,7 +35,7 @@ public class SplashScreen extends Activity {
             try {
                 Thread.sleep(500);
                 mProgress.setProgress(progress);
-                textView.setText(progress + "/100 %");
+                textView.setText(progress + " %");
             } catch (Exception e) {
                 e.printStackTrace();
             }
