@@ -1,9 +1,12 @@
 package com.example.kellynarboux.coach_training;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,7 +24,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.kellynarboux.coach_training.db.User;
 import com.example.kellynarboux.coach_training.db.UserViewModel;
 
 import java.util.List;
@@ -45,12 +50,25 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // check if the user is registered  TODO
+
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        List users = userViewModel.getAllUsers().getValue();
-        if(users != null && users.isEmpty()){  // FIXME
-            Intent redirectToRegister = new Intent(this, RegisterActivity.class);
-            startActivity(redirectToRegister);
-        }
+        userViewModel.getAllUsers().observe(this, userList -> {
+            if(userList != null && userList.isEmpty()){  // FIXME
+                Intent redirectToRegister = new Intent(this, RegisterActivity.class);
+                startActivity(redirectToRegister);
+            } else if(userList != null){
+                Toast.makeText(
+                        getApplicationContext(),
+                        "found a user : " + userList.get(0).getPseudo(),
+                        Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(
+                        getApplicationContext(),
+                        "error while retrieving users",
+                        Toast.LENGTH_LONG).show();
+                Log.d("tag", "error");
+            }
+        });
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);

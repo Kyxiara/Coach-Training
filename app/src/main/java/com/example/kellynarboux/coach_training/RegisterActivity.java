@@ -2,6 +2,7 @@ package com.example.kellynarboux.coach_training;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -113,6 +114,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 getApplicationContext(),
                 "registered as  : " + name,
                 Toast.LENGTH_LONG).show();
+        Intent myIntent = new Intent(RegisterActivity.this, ProfilActivity.class);
+        startActivity(myIntent);
     }
 
     @Override

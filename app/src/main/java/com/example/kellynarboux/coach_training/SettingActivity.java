@@ -1,6 +1,9 @@
 package com.example.kellynarboux.coach_training;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +15,14 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.kellynarboux.coach_training.db.AppDatabase;
 
+import java.lang.ref.WeakReference;
+import java.util.List;
 import java.util.Objects;
 
 public class SettingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -22,16 +30,17 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle mToogle;
     NavigationView navigationView;
+    private Button reset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        toolbar = (Toolbar)findViewById(R.id.toolbarSetting);
+        toolbar = findViewById(R.id.toolbarSetting);
         setSupportActionBar(toolbar);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerSetting);
+        mDrawerLayout = findViewById(R.id.drawerSetting);
         mToogle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToogle);
         mToogle.syncState();
@@ -41,9 +50,16 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
             actionBar.setDisplayHomeAsUpEnabled(true);
         mToogle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
 
-        navigationView = (NavigationView) findViewById(R.id.nav_viewSetting);
+        navigationView = findViewById(R.id.nav_viewSetting);
         navigationView.setNavigationItemSelectedListener(this);
-        Reset();
+        reset = findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ResetAsyncTask resetTask = new ResetAsyncTask(SettingActivity.this);
+                resetTask.execute();
+            }
+        });
     }
 
     @Override
@@ -86,8 +102,34 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
         }
     }
 
-    public void Reset(){
-        AppDatabase db = AppDatabase.getInstance(this);
-        db.userDao().deleteAll();
+    private static class ResetAsyncTask extends AsyncTask<Void, Void, Integer> {
+
+        //Prevent leak
+        private WeakReference<Context> context;
+
+        public ResetAsyncTask(Context context) {
+            this.context = new WeakReference<>(context);
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            AppDatabase db = AppDatabase.getInstance(context.get());
+            if(db != null){
+                //int previous = db.userDao().getAll().getValue().size();
+                db.userDao().deleteAll();
+                //return previous - db.userDao().getAll().getValue().size();
+                return 1;
+            }
+            return 0;  // error during the reset
+        }
+
+        @Override
+        protected void onPostExecute(Integer deletedUser) {
+            if (deletedUser > 0) {
+                Toast.makeText(context.get(), "reset the data of " + deletedUser + " user(s)", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(context.get(), "Error, no data to reset", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
