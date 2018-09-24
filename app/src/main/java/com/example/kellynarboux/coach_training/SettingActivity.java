@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.kellynarboux.coach_training.db.AppDatabase;
+
 import java.util.Objects;
 
 public class SettingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -41,6 +43,7 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
 
         navigationView = (NavigationView) findViewById(R.id.nav_viewSetting);
         navigationView.setNavigationItemSelectedListener(this);
+        Reset();
     }
 
     @Override
@@ -81,5 +84,10 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
             startActivity(intent);
             //super.onBackPressed();
         }
+    }
+
+    public void Reset(){
+        AppDatabase db = AppDatabase.getInstance(this);
+        db.userDao().deleteAll();
     }
 }

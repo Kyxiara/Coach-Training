@@ -1,6 +1,7 @@
 package com.example.kellynarboux.coach_training;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -21,6 +22,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.kellynarboux.coach_training.db.UserViewModel;
+
+import java.util.List;
 import java.util.Objects;
 
 public class ProfilActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -30,6 +34,9 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
     ActionBarDrawerToggle mToogle;
     NavigationView navigationView;
 
+    private UserViewModel userViewModel;
+
+
     ImageView avatar;
     EditText weight;
     EditText size;
@@ -38,8 +45,12 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // check if the user is registered  TODO
-        Intent redirectToRegister = new Intent(this, RegisterActivity.class);
-        startActivity(redirectToRegister);
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        List users = userViewModel.getAllUsers().getValue();
+        if(users != null && users.isEmpty()){  // FIXME
+            Intent redirectToRegister = new Intent(this, RegisterActivity.class);
+            startActivity(redirectToRegister);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);

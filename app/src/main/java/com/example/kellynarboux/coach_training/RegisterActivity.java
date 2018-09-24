@@ -1,21 +1,15 @@
 package com.example.kellynarboux.coach_training;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,38 +18,41 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.kellynarboux.coach_training.db.Gender;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.kellynarboux.coach_training.db.User;
+import com.example.kellynarboux.coach_training.db.UserViewModel;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class RegisterActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-        // UI references.
+    private UserViewModel userViewModel;
+
+    // UI references.
     private AutoCompleteTextView nameView;
     private EditText weightView;
     private EditText heightView;
     private EditText ageView;
     private Spinner genderView;
-    private Button registerView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
         // Set up the registerView form.
         nameView = findViewById(R.id.name);
         weightView = findViewById(R.id.weight);
         heightView = findViewById(R.id.height);
         ageView = findViewById(R.id.age);
         genderView = findViewById(R.id.gender);
-        registerView = findViewById(R.id.register);
-
+        Button register = findViewById(R.id.register);
 
         // add values to the spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -63,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderView.setAdapter(adapter);
 
-        registerView.setOnClickListener(new OnClickListener() {
+        register.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptRegister();
@@ -79,8 +76,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         // Store values at the time of the login attempt.
         String name = nameView.getText().toString();
-        String weight = weightView.getText().toString();
-        String height = heightView.getText().toString();
+        float weight = Float.valueOf(weightView.getText().toString());
+        float height = Float.valueOf(heightView.getText().toString());
         int age = Integer.parseInt(ageView.getText().toString());
         Gender gender = Gender.valueOf(genderView.getSelectedItem().toString());
 
@@ -109,8 +106,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         return name.length() > 2;
     }
 
-     private void register(String name, String weight, String height, int age, Gender gender) {
-        // TODO
+    private void register(String name, float weight, float height, int age, Gender gender) {
+        User user = new User(name, weight, height, age, gender);
+        userViewModel.insert(user);
+        Toast.makeText(
+                getApplicationContext(),
+                "registered as  : " + name,
+                Toast.LENGTH_LONG).show();
     }
 
     @Override

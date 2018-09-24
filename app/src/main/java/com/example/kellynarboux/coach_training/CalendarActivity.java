@@ -1,5 +1,6 @@
 package com.example.kellynarboux.coach_training;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,9 +14,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.kellynarboux.coach_training.db.UserViewModel;
+
+import java.util.List;
 import java.util.Objects;
 
 public class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    private UserViewModel userViewModel;
+
     Toolbar toolbar;
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle mToogle;
@@ -24,8 +30,12 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // check if the user is registered  TODO
-        Intent redirectToRegister = new Intent(this, RegisterActivity.class);
-        startActivity(redirectToRegister);
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        List users = userViewModel.getAllUsers().getValue();
+        if(users != null && users.isEmpty()){  // FIXME
+            Intent redirectToRegister = new Intent(this, RegisterActivity.class);
+            startActivity(redirectToRegister);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);

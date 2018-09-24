@@ -1,6 +1,6 @@
 package com.example.kellynarboux.coach_training.model;
 
-public class CountableExercise extends Exercise {
+public class CountableExercise extends com.example.kellynarboux.coach_training.model.Exercise {
 
     private int count;
 

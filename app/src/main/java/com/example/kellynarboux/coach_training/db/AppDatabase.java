@@ -12,10 +12,9 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public static AppDatabase getInstance(final Context context) {
         if (sInstance == null) {
-
             synchronized (AppDatabase.class) {
                 if (sInstance == null) {
-                    AppDatabase sInstance = Room.databaseBuilder(context.getApplicationContext(),
+                    sInstance = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "database-name").build();
                 }
             }

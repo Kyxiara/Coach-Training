@@ -22,6 +22,22 @@ public class User {
     @ColumnInfo(name = "gender")
     private String gender;
 
+    public User(){
+        pseudo = "Anonymous";  // FIXME
+    }
+
+    public User(@NonNull String name){
+        pseudo = name;
+    }
+
+    public User(@NonNull String name, float weight, float height, int age, Gender gender){
+        pseudo = name;
+        this.weight = weight;
+        this.height = height;
+        this.age = age;
+        this.gender = gender.name();
+    }
+
     public String getPseudo() {
         return pseudo;
     }
