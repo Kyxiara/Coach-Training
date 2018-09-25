@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public abstract class Exercise {
 
     // Regex to match vocal exercise
-    private static final Pattern p = Pattern.compile("\\D*(\\d+)\\s*(\\S+)");
+    private static final Pattern p = Pattern.compile("\\D*(\\d+)\\s*(\\S+)\\.*");
 
     public abstract String getName();
 

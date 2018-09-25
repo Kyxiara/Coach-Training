@@ -13,6 +13,8 @@ import com.example.kellynarboux.coach_training.model.CountableExercise;
 import com.example.kellynarboux.coach_training.model.CountableExerciseType;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CountExercise extends AppCompatActivity {
 
@@ -22,6 +24,8 @@ public class CountExercise extends AppCompatActivity {
     private SpeechRecognizer mSpeechRecognizer;
     private Intent mSpeechRecognizerIntent;
     private boolean mIslistening;
+
+    private static final Pattern p = Pattern.compile("(\\D*(\\d+)\\D*)*");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,10 @@ public class CountExercise extends AppCompatActivity {
         mSpeechRecognizer.setRecognitionListener(listener);
     }
 
+    private void indentCounter(String s){
+
+    }
+
     @Override
     protected void onDestroy() {
         if (mSpeechRecognizer != null)
@@ -68,7 +76,7 @@ public class CountExercise extends AppCompatActivity {
         @Override
         public void onBeginningOfSpeech()
         {
-            //Log.d(TAG, "onBeginingOfSpeech");
+            Log.d("TAG", "onBeginingOfSpeech");
         }
 
         @Override
@@ -81,6 +89,7 @@ public class CountExercise extends AppCompatActivity {
         public void onEndOfSpeech()
         {
             Log.d("TAG", "onEndOfSpeech");
+            mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
         }
 
         @Override
@@ -113,7 +122,15 @@ public class CountExercise extends AppCompatActivity {
         public void onResults(Bundle results)
         {
             //Log.d(TAG, "onResults"); //$NON-NLS-1$
-            ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            ArrayList<String> s = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            Log.d("TAG", s.get(0));
+            Matcher m = p.matcher(s.get(0));
+            if(m.matches()){
+                Log.d("TAG", "j'ai trouvé un nombre");
+                for (int i = 0; i < m.groupCount(); i++){
+                    Log.d("Regex", m.group(i) + " = " + i + ",");
+                }
+            }
             // matches are the return values of speech recognition engine
             // Use these values for whatever you wish to do
         }
