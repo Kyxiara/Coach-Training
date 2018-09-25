@@ -3,6 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/navigation_register"
+            android:title="S'enregistrer"
+            android:icon="@drawable/icon_register"/>
+        <item
             android:id="@+id/navigation_profil"
             android:title="@string/profil"
             android:icon="@drawable/icon_profil"/>

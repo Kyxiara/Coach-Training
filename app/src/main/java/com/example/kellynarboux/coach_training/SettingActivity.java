@@ -1,6 +1,7 @@
 package com.example.kellynarboux.coach_training;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.kellynarboux.coach_training.db.AppDatabase;
+import com.example.kellynarboux.coach_training.db.UserViewModel;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -31,6 +33,7 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
     ActionBarDrawerToggle mToogle;
     NavigationView navigationView;
     private Button reset;
+    UserViewModel userViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,20 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
 
         navigationView = findViewById(R.id.nav_viewSetting);
         navigationView.setNavigationItemSelectedListener(this);
+
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel.getAllUsers().observe(this, userList -> {
+            if(userList != null && userList.isEmpty()){  // FIXME
+                navigationView.getMenu().findItem(R.id.navigation_profil).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navigation_calendrier).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navigation_register).setVisible(true);
+            }else{
+                navigationView.getMenu().findItem(R.id.navigation_register).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navigation_profil).setVisible(true);
+                navigationView.getMenu().findItem(R.id.navigation_calendrier).setVisible(true);
+            }
+        });
+
         reset = findViewById(R.id.reset);
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +100,9 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
                 startActivity(new Intent(SettingActivity.this, CalendarActivity.class));
                 break;
             case R.id.navigation_options :
+                break;
+            case R.id.navigation_register :
+                startActivity(new Intent(SettingActivity.this, RegisterActivity.class));
                 break;
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);

@@ -1,5 +1,6 @@
 package com.example.kellynarboux.coach_training;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
@@ -12,11 +13,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.kellynarboux.coach_training.db.UserViewModel;
 import com.example.kellynarboux.coach_training.model.CountableExercise;
 import com.example.kellynarboux.coach_training.model.Exercise;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle mToogle;
     NavigationView navigationView;
+    UserViewModel userViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel.getAllUsers().observe(this, userList -> {
+            if(userList != null && userList.isEmpty()){  // FIXME
+                navigationView.getMenu().findItem(R.id.navigation_profil).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navigation_calendrier).setVisible(false);
+            }else{
+                navigationView.getMenu().findItem(R.id.navigation_register).setVisible(false);
+            }
+        });
 
         button_begin = (Button) findViewById(R.id.button_begin);
         button_begin.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +140,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.navigation_options :
                 startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                break;
+            case R.id.navigation_register :
+                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
                 break;
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);

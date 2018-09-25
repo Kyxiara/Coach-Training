@@ -1,9 +1,15 @@
 package com.example.kellynarboux.coach_training;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -11,9 +17,12 @@ import android.content.Loader;
 import android.database.Cursor;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -28,7 +37,7 @@ import com.example.kellynarboux.coach_training.db.UserViewModel;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class RegisterActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, NavigationView.OnNavigationItemSelectedListener {
 
     private UserViewModel userViewModel;
 
@@ -39,13 +48,41 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private EditText ageView;
     private Spinner genderView;
 
+    Toolbar toolbar;
+    DrawerLayout mDrawerLayout;
+    ActionBarDrawerToggle mToogle;
+    NavigationView navigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        toolbar = (Toolbar)findViewById(R.id.register_toolbar);
+        setSupportActionBar(toolbar);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.register_drawer);
+        mToogle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+        mDrawerLayout.addDrawerListener(mToogle);
+        mToogle.syncState();
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        mToogle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
+
+        navigationView = (NavigationView) findViewById(R.id.register_nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel.getAllUsers().observe(this, userList -> {
+            if(userList != null && userList.isEmpty()){  // FIXME
+                navigationView.getMenu().findItem(R.id.navigation_profil).setVisible(false);
+                navigationView.getMenu().findItem(R.id.navigation_calendrier).setVisible(false);
+            }else{
+                navigationView.getMenu().findItem(R.id.navigation_register).setVisible(false);
+            }
+        });
 
         // Set up the registerView form.
         nameView = findViewById(R.id.name);
@@ -67,6 +104,22 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 attemptRegister();
             }
         });
+    }
+
+    public void hideSoftKeyboard()
+    {
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        assert inputMethodManager != null;
+        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        hideSoftKeyboard();
+        if (mToogle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -131,6 +184,35 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.navigation_exercices :
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                break;
+            case R.id.navigation_options :
+                startActivity(new Intent(RegisterActivity.this, SettingActivity.class));
+                break;
+            case R.id.navigation_register :
+                break;
+        }
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            //super.onBackPressed();
+        }
     }
 }
 

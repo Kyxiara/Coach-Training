@@ -49,26 +49,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // check if the user is registered  TODO
-
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        userViewModel.getAllUsers().observe(this, userList -> {
-            if(userList != null && userList.isEmpty()){  // FIXME
-                Intent redirectToRegister = new Intent(this, RegisterActivity.class);
-                startActivity(redirectToRegister);
-            } else if(userList != null){
-                Toast.makeText(
-                        getApplicationContext(),
-                        "found a user : " + userList.get(0).getPseudo(),
-                        Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(
-                        getApplicationContext(),
-                        "error while retrieving users",
-                        Toast.LENGTH_LONG).show();
-                Log.d("tag", "error");
-            }
-        });
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
@@ -88,6 +69,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
 
         navigationView = (NavigationView) findViewById(R.id.nav_viewProfil);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().findItem(R.id.navigation_register).setVisible(false);
 
         avatar = (ImageView) findViewById(R.id.avatar);
         ImageButton button_man = (ImageButton) findViewById(R.id.button_man);

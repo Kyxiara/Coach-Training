@@ -55,6 +55,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
 
         navigationView = (NavigationView) findViewById(R.id.nav_viewCalendar);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().findItem(R.id.navigation_register).setVisible(false);
     }
 
     @Override
