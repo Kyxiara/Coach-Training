@@ -122,7 +122,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         return super.onOptionsItemSelected(item);
     }
 
-
     private void attemptRegister() {
 
         // Reset errors.

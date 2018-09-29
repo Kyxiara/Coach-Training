@@ -41,7 +41,6 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
 
     private UserViewModel userViewModel;
 
-
     ImageView avatar;
     EditText weight;
     EditText size;
@@ -72,21 +71,6 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
         navigationView.getMenu().findItem(R.id.navigation_register).setVisible(false);
 
         avatar = (ImageView) findViewById(R.id.avatar);
-        ImageButton button_man = (ImageButton) findViewById(R.id.button_man);
-        button_man.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                avatar.setImageResource(R.drawable.avatar_homme);
-            }
-        });
-        ImageButton button_woman = (ImageButton) findViewById(R.id.button_woman);
-        button_woman.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                avatar.setImageResource(R.drawable.avatar_femme);
-            }
-        });
-
         weight = (EditText) findViewById(R.id.weight);
         size = (EditText) findViewById(R.id.size);
         imc = (TextView) findViewById(R.id.imc);
