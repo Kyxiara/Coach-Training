@@ -39,76 +39,175 @@
                 android:id="@+id/register_form_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="30dp">
 
-                <android.support.design.widget.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/name"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Nom : "
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/prompt_name"
-                        android:inputType="textPersonName"
-                        android:maxLines="1"
-                        android:singleLine="true" />
+                        android:layout_height="match_parent">
 
-                </android.support.design.widget.TextInputLayout>
+                        <AutoCompleteTextView
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textSize="25sp" />
 
-                <android.support.design.widget.TextInputLayout
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/weight"
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="@string/prompt_weight"
-                        android:inputType="numberDecimal"
-                        android:importantForAutofill="no"
-                        tools:targetApi="o" />
-                </android.support.design.widget.TextInputLayout>
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Poids : "
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
 
-                <android.support.design.widget.TextInputLayout
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/weight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:importantForAutofill="no"
+                            android:inputType="numberDecimal"
+                            android:textSize="25sp"
+                            tools:targetApi="o" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="kg"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/height"
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="@string/prompt_height"
-                        android:importantForAutofill="no"
-                        android:inputType="number"
-                        tools:targetApi="o" />
-                </android.support.design.widget.TextInputLayout>
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Taille : "
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
 
-                <android.support.design.widget.TextInputLayout
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/height"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:importantForAutofill="no"
+                            android:inputType="number"
+                            android:textSize="25sp"
+                            tools:targetApi="o" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="cm"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/age"
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="@string/prompt_age"
-                        android:inputType="numberSigned"
-                        android:importantForAutofill="no"
-                        tools:targetApi="o" />
-                </android.support.design.widget.TextInputLayout>
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Age : "
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/age"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:importantForAutofill="no"
+                            android:inputType="numberSigned"
+                            android:textSize="25sp"
+                            tools:targetApi="o" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Sexe : "
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 
                 <Spinner
                     android:id="@+id/gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:spinnerMode="dropdown" />
+            </LinearLayout>
 
                 <Button
                     android:id="@+id/register"
