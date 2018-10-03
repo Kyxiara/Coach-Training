@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kellynarboux.coach_training.db.Gender;
 import com.example.kellynarboux.coach_training.db.User;
 import com.example.kellynarboux.coach_training.db.UserViewModel;
 
@@ -40,6 +41,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
     NavigationView navigationView;
 
     private UserViewModel userViewModel;
+    private User currentUser;
 
     ImageView avatar;
     EditText weight;
@@ -49,14 +51,16 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        LiveData<List<User>> users = userViewModel.getAllUsers();
+        currentUser = users.getValue().get(0);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
 
-        toolbar = (Toolbar)findViewById(R.id.toolbarProfil);
+        toolbar = findViewById(R.id.toolbarProfil);
         setSupportActionBar(toolbar);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerProfil);
+        mDrawerLayout = findViewById(R.id.drawerProfil);
         mToogle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToogle);
         mToogle.syncState();
@@ -66,19 +70,31 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
             actionBar.setDisplayHomeAsUpEnabled(true);
         mToogle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
 
-        navigationView = (NavigationView) findViewById(R.id.nav_viewProfil);
+        navigationView = findViewById(R.id.nav_viewProfil);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().findItem(R.id.navigation_register).setVisible(false);
 
-        avatar = (ImageView) findViewById(R.id.avatar);
-        weight = (EditText) findViewById(R.id.weight);
-        size = (EditText) findViewById(R.id.size);
-        imc = (TextView) findViewById(R.id.imc);
+        avatar = findViewById(R.id.avatar);
+        int avatarID = R.drawable.avatar_homme;
+        if(Gender.valueOf(currentUser.getGender()) == Gender.Femme)
+            avatarID = R.drawable.avatar_femme;
+        avatar.setImageResource(avatarID);
+
+        weight = findViewById(R.id.weight);
+        weight.setText(Float.toString(currentUser.getHeight()));
+
+        size = findViewById(R.id.size);  // TODO change size to height
+        size.setText(Float.toString(currentUser.getHeight()));
+
+        imc = findViewById(R.id.imc);
+        float myImc = calculIMC(Float.parseFloat(weight.getText().toString()),
+                  Integer.parseInt(size.getText().toString()));
+        imc.setText(Float.toString(myImc));
     }
 
-    public float calculIMC(float weight, int size){
-        size /= 100;
-        return weight / (size * size);
+    public float calculIMC(float weight, int height){
+        height /= 100;
+        return weight / (height * height);
     }
 
     @Override
