@@ -41,7 +41,6 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
     NavigationView navigationView;
 
     private UserViewModel userViewModel;
-    private User currentUser;
 
     ImageView avatar;
     EditText weight;
@@ -51,8 +50,6 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        LiveData<List<User>> users = userViewModel.getAllUsers();
-        currentUser = users.getValue().get(0);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
@@ -75,21 +72,32 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
         navigationView.getMenu().findItem(R.id.navigation_register).setVisible(false);
 
         avatar = findViewById(R.id.avatar);
-        int avatarID = R.drawable.avatar_homme;
-        if(Gender.valueOf(currentUser.getGender()) == Gender.Femme)
-            avatarID = R.drawable.avatar_femme;
-        avatar.setImageResource(avatarID);
-
         weight = findViewById(R.id.weight);
-        weight.setText(Float.toString(currentUser.getHeight()));
-
         size = findViewById(R.id.size);  // TODO change size to height
-        size.setText(Float.toString(currentUser.getHeight()));
 
         imc = findViewById(R.id.imc);
-        float myImc = calculIMC(Float.parseFloat(weight.getText().toString()),
-                  Integer.parseInt(size.getText().toString()));
-        imc.setText(Float.toString(myImc));
+
+        // Create the observer which updates the UI.
+        final Observer<List<User>> userObserver = users -> {
+            if(users != null){
+                User currentUser = users.get(0);  // FIXME bidouille
+                int avatarID = R.drawable.avatar_homme;
+                if(Gender.valueOf(currentUser.getGender()) == Gender.Femme)
+                    avatarID = R.drawable.avatar_femme;
+                avatar.setImageResource(avatarID);
+
+                weight.setText(Float.toString(currentUser.getHeight()));
+                size.setText(Float.toString(currentUser.getHeight()));
+
+                float myImc = calculIMC(Float.parseFloat(weight.getText().toString()),
+                          Integer.parseInt(size.getText().toString()));
+                imc.setText(Float.toString(myImc));
+            }
+        };
+
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        userViewModel.getAllUsers().observe(this, userObserver);
+        
     }
 
     public float calculIMC(float weight, int height){
