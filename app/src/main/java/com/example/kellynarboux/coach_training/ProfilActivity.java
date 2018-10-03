@@ -31,6 +31,7 @@ import com.example.kellynarboux.coach_training.db.User;
 import com.example.kellynarboux.coach_training.db.UserViewModel;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ProfilActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -86,18 +87,32 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
                     avatarID = R.drawable.avatar_femme;
                 avatar.setImageResource(avatarID);
 
-                weight.setText(Float.toString(currentUser.getHeight()));
-                size.setText(Float.toString(currentUser.getHeight()));
+                weight.setText(String.format(Locale.FRANCE, "%f5", currentUser.getWeight()));
+                size.setText(String.format(Locale.FRANCE, "%d", currentUser.getHeight()));
 
-                float myImc = calculIMC(Float.parseFloat(weight.getText().toString()),
-                          Integer.parseInt(size.getText().toString()));
-                imc.setText(Float.toString(myImc));
+                float myImc = calculIMC(currentUser.getWeight(), currentUser.getHeight());
+                imc.setText(String.format(Locale.FRANCE, "%f5", myImc));
             }
         };
 
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
         userViewModel.getAllUsers().observe(this, userObserver);
-        
+
+        /*weight.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                LiveData<List<User>> users = userViewModel.getAllUsers();
+                //users.getValue().
+            }
+        });*/
+
     }
 
     public float calculIMC(float weight, int height){

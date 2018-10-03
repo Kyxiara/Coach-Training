@@ -14,7 +14,7 @@ public class User {
     private float weight;
 
     @ColumnInfo(name = "height")
-    private float height;
+    private int height;
 
     @ColumnInfo(name = "age")
     private int age;
@@ -30,7 +30,7 @@ public class User {
         pseudo = name;
     }
 
-    public User(@NonNull String name, float weight, float height, int age, Gender gender){
+    public User(@NonNull String name, float weight, int height, int age, Gender gender){
         pseudo = name;
         this.weight = weight;
         this.height = height;
@@ -54,11 +54,11 @@ public class User {
         this.weight = weight;
     }
 
-    public float getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
@@ -81,7 +81,4 @@ public class User {
     public void setGender(Gender gender) {
         this.gender = gender.name();
     }
-
-    // Getters and setters are ignored for brevity,
-    // but they're required for Room to work.
 }

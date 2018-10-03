@@ -34,9 +34,6 @@ import com.example.kellynarboux.coach_training.db.Gender;
 import com.example.kellynarboux.coach_training.db.User;
 import com.example.kellynarboux.coach_training.db.UserViewModel;
 
-/**
- * A login screen that offers login via email/password.
- */
 public class RegisterActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, NavigationView.OnNavigationItemSelectedListener {
 
     private UserViewModel userViewModel;
@@ -130,7 +127,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         // Store values at the time of the login attempt.
         String name = nameView.getText().toString();
         float weight = Float.valueOf(weightView.getText().toString());
-        float height = Float.valueOf(heightView.getText().toString());
+        int height = Integer.valueOf(heightView.getText().toString());
         int age = Integer.parseInt(ageView.getText().toString());
         Gender gender = Gender.valueOf(genderView.getSelectedItem().toString());
 
@@ -159,7 +156,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         return name.length() > 2;
     }
 
-    private void register(String name, float weight, float height, int age, Gender gender) {
+    private void register(String name, float weight, int height, int age, Gender gender) {
         User user = new User(name, weight, height, age, gender);
         userViewModel.insert(user);
         Toast.makeText(
