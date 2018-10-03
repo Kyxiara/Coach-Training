@@ -1,13 +1,19 @@
 package com.example.kellynarboux.coach_training;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kellynarboux.coach_training.model.CountableExercise;
 import com.example.kellynarboux.coach_training.model.CountableExerciseType;
@@ -24,6 +30,10 @@ public class CountExercise extends AppCompatActivity {
     private SpeechRecognizer mSpeechRecognizer;
     private Intent mSpeechRecognizerIntent;
     private boolean mIslistening;
+    private ProgressBar progressBarCircle;
+
+    private Integer original_volume_level;
+    private AudioManager audioManager;
 
     private static final Pattern p = Pattern.compile("(\\D*(\\d+)\\D*)*");
 
@@ -32,14 +42,22 @@ public class CountExercise extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_count_exercise);
 
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        original_volume_level = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
+
         mIslistening = false;
 
         exercise = new CountableExercise(CountableExerciseType.valueOf(getIntent().getStringExtra("myName")), getIntent().getIntExtra("myNb", 10));
 
-        count = (TextView)findViewById(R.id.id_count);
-        name = (TextView)findViewById(R.id.id_nameEx);
+        count = findViewById(R.id.id_count);
+        name = findViewById(R.id.id_nameEx);
         count.setText(counter + "/" + exercise.getCount());
         name.setText(exercise.getName());
+
+        progressBarCircle = findViewById(R.id.progressBarCircle);
+        progressBarCircle.setMax(exercise.getCount());
+        progressBarCircle.setProgress(counter);
 
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -57,8 +75,29 @@ public class CountExercise extends AppCompatActivity {
         mSpeechRecognizer.setRecognitionListener(listener);
     }
 
-    private void indentCounter(String s){
+    public static boolean isNumeric(String str)
+    {
+        try
+        {
+            int d = Integer.parseInt(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
+    }
 
+    private void indentCounter(String[] s){
+        int nb;
+        for (int i = 0; i < s.length; i++){
+            if (isNumeric(s[i])){
+                nb = Integer.parseInt(s[i]);
+                if (nb > counter && nb < exercise.getCount()) counter = nb;
+                count.setText(counter + "/" + exercise.getCount());
+                progressBarCircle.setProgress(counter);
+            }
+        }
     }
 
     @Override
@@ -67,6 +106,9 @@ public class CountExercise extends AppCompatActivity {
         {
             mSpeechRecognizer.destroy();
         }
+
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, original_volume_level, 0);
+
         super.onDestroy();
     }
 
@@ -124,15 +166,14 @@ public class CountExercise extends AppCompatActivity {
             //Log.d(TAG, "onResults"); //$NON-NLS-1$
             ArrayList<String> s = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             Log.d("TAG", s.get(0));
-            Matcher m = p.matcher(s.get(0));
+            Log.d("Nb", String.valueOf(s.size()));
+            /*Matcher m = p.matcher(s.get(0));
             if(m.matches()){
-                Log.d("TAG", "j'ai trouvé un nombre");
-                for (int i = 0; i < m.groupCount(); i++){
-                    Log.d("Regex", m.group(i) + " = " + i + ",");
-                }
-            }
-            // matches are the return values of speech recognition engine
-            // Use these values for whatever you wish to do
+                Log.d("Regex", m.group(0));
+            }*/
+            String[] sentence = s.get(0).split(" ");
+            for (int i = 0; i < sentence.length; i++) Log.d("Mot", sentence[i]);
+            indentCounter(sentence);
         }
 
         @Override

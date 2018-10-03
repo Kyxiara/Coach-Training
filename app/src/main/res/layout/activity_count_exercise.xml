@@ -1,30 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CountExercise">
+    tools:context=".CountExercise"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarProfil"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center_vertical"
+            android:text="Exercice"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp"
+            tools:ignore="HardcodedText"
+            tools:layout_editor_absoluteX="16dp" />
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/id_nameEx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="192dp"
+        tools:layout_editor_absoluteY="209dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:paddingTop="20dp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <ProgressBar
+            android:id="@+id/progressBarCircle"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="270dp"
+            android:layout_height="270dp"
+            android:background="@drawable/drawable_circle_dark"
+            android:layout_centerInParent="true"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="100"
+            android:progressDrawable="@drawable/drawable_circle"
+            android:rotation="-90" />
 
         <TextView
             android:id="@+id/id_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layout_editor_absoluteX="192dp"
-            tools:layout_editor_absoluteY="89dp" />
+            tools:layout_editor_absoluteY="89dp"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:layout_centerInParent="true"/>
 
-        <TextView
-            android:id="@+id/id_nameEx"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="192dp"
-            tools:layout_editor_absoluteY="209dp" />
+    </RelativeLayout>
 
-    </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.LinearLayoutCompat>

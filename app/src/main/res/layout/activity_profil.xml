@@ -71,11 +71,12 @@
                 android:layout_height="wrap_content"
                 android:width="50dp"
                 android:ems="10"
+                android:focusable="false"
                 android:inputType="numberDecimal"
+                android:minWidth="70dp"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
-                android:textStyle="bold"
-                android:focusable="false"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -108,11 +109,12 @@
                 android:layout_height="wrap_content"
                 android:width="50dp"
                 android:ems="10"
+                android:focusable="false"
                 android:inputType="number"
+                android:minWidth="70dp"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"
-                android:textStyle="bold"
-                android:focusable="false"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
