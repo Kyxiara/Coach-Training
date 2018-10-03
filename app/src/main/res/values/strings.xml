@@ -29,4 +29,6 @@
     <string name="prompt_weight">57.8</string>
     <string name="prompt_height">185</string>
     <string name="prompt_age">27</string>
+    <string name="pseudo_prompt">Pseudo :</string>
+    <string name="imc_prompt" >"IMC : "</string>
 </resources>

@@ -34,12 +34,12 @@
             android:id="@+id/pseudo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="Pseudo : "
+            android:text="@string/pseudo_prompt"
             android:textColor="@android:color/black"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp" />
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/avatar"
@@ -129,12 +129,12 @@
             android:id="@+id/imc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
+            android:text="@string/imc_prompt"
             android:textColor="@android:color/black"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:text="IMC : "
-            android:layout_marginTop="10dp"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 

@@ -43,6 +43,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
 
     private UserViewModel userViewModel;
 
+    TextView pseudo;
     ImageView avatar;
     EditText weight;
     EditText size;
@@ -72,6 +73,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().findItem(R.id.navigation_register).setVisible(false);
 
+        pseudo = findViewById(R.id.pseudo);
         avatar = findViewById(R.id.avatar);
         weight = findViewById(R.id.weight);
         size = findViewById(R.id.size);  // TODO change size to height
@@ -80,44 +82,51 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
 
         // Create the observer which updates the UI.
         final Observer<List<User>> userObserver = users -> {
-            if(users != null){
+            if (users != null) {
                 User currentUser = users.get(0);  // FIXME bidouille
                 int avatarID = R.drawable.avatar_homme;
-                if(Gender.valueOf(currentUser.getGender()) == Gender.Femme)
+                if (Gender.valueOf(currentUser.getGender()) == Gender.Femme)
                     avatarID = R.drawable.avatar_femme;
                 avatar.setImageResource(avatarID);
 
-                weight.setText(String.format(Locale.FRANCE, "%f5", currentUser.getWeight()));
+                weight.setText(String.format(Locale.FRANCE, "%.2f", currentUser.getWeight()));
                 size.setText(String.format(Locale.FRANCE, "%d", currentUser.getHeight()));
 
                 float myImc = calculIMC(currentUser.getWeight(), currentUser.getHeight());
-                imc.setText(String.format(Locale.FRANCE, "%f5", myImc));
+                imc.setText("IMC : " + String.format(Locale.FRANCE, "%.2f", myImc));
+                pseudo.setText("Pseudo : " + currentUser.getPseudo());
             }
         };
 
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
         userViewModel.getAllUsers().observe(this, userObserver);
 
-        /*weight.addTextChangedListener(new TextWatcher() {
+        weight.addTextChangedListener(new TextWatcher() {
             @Override
-            public void afterTextChanged(Editable s) {}
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
-                LiveData<List<User>> users = userViewModel.getAllUsers();
-                //users.getValue().
+            public void afterTextChanged(Editable s) {
             }
-        });*/
 
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                /*LiveData<List<User>> users = userViewModel.getAllUsers();
+                User currentUser = users.getValue().get(0);
+                currentUser.setWeight(Float.valueOf(s.toString()));*/
+                Toast.makeText(
+                        getApplicationContext(),
+                        "weight changed to : " + s,
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
+
     public float calculIMC(float weight, int height){
-        height /= 100;
-        return weight / (height * height);
+        float h = height / 100;
+        return weight / (h * h);
     }
 
     @Override
