@@ -93,7 +93,7 @@ public class CountExercise extends AppCompatActivity {
         for (int i = 0; i < s.length; i++){
             if (isNumeric(s[i])){
                 nb = Integer.parseInt(s[i]);
-                if (nb > counter && nb < exercise.getCount()) counter = nb;
+                if (nb > counter && nb <= exercise.getCount()) counter = nb;
                 count.setText(counter + "/" + exercise.getCount());
                 progressBarCircle.setProgress(counter);
             }
