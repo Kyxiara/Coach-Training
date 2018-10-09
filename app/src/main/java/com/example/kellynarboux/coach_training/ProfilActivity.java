@@ -1,27 +1,24 @@
 package com.example.kellynarboux.coach_training;
 
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +29,6 @@ import com.example.kellynarboux.coach_training.db.UserViewModel;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class ProfilActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -48,6 +44,8 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
     EditText weight;
     EditText size;
     TextView imc;
+
+    private boolean modification = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +91,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
                 size.setText(String.format(Locale.FRANCE, "%d", currentUser.getHeight()));
 
                 float myImc = calculIMC(currentUser.getWeight(), currentUser.getHeight());
-                imc.setText("IMC : " + String.format(Locale.FRANCE, "%.2f", myImc));
+                setIMC(myImc);
                 pseudo.setText("Pseudo : " + currentUser.getPseudo());
             }
         };
@@ -104,29 +102,66 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
         weight.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-            }
+                if(s.length() == 0)
+                    return;  // Exit the modification
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                /*LiveData<List<User>> users = userViewModel.getAllUsers();
+                LiveData<List<User>> users = userViewModel.getAllUsers();
                 User currentUser = users.getValue().get(0);
-                currentUser.setWeight(Float.valueOf(s.toString()));*/
-                Toast.makeText(
-                        getApplicationContext(),
-                        "weight changed to : " + s,
-                        Toast.LENGTH_LONG).show();
+                try {
+                    String myString = s.toString();
+                    myString = myString.replace(',', '.');
+                    currentUser.setWeight(Float.parseFloat(myString.toString()));
+                } catch (NumberFormatException nfe){
+                    Log.d("Warning", nfe.toString());
+                }
+                modification = true;
             }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+
+        size.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() == 0)
+                    return;  // Exit the modification
+
+                LiveData<List<User>> users = userViewModel.getAllUsers();
+                User currentUser = users.getValue().get(0);
+                currentUser.setHeight(Integer.parseInt(s.toString()));
+                modification = true;
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
     }
 
+    private void save(){
+        if(modification){
+            LiveData<List<User>> users = userViewModel.getAllUsers();
+            User currentUser = users.getValue().get(0);
+            userViewModel.update(currentUser);
+        }
+    }
 
     public float calculIMC(float weight, int height){
-        float h = height / 100;
+        float h = height / (float)100;
         return weight / (h * h);
+    }
+
+    public void setIMC(float value){
+        imc.setText("IMC : " + String.format(Locale.FRANCE, "%.2f", value));
+        int color;
+        if(value < 18 || value > 25){
+            color = Color.RED;
+        } else {
+            color = Color.GREEN;
+        }
+        imc.setTextColor(color);
     }
 
     @Override
@@ -139,6 +174,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        save();
         switch (item.getItemId()){
             case R.id.navigation_profil :
                 break;
@@ -166,6 +202,13 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             //super.onBackPressed();
+            save();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        save();
     }
 }

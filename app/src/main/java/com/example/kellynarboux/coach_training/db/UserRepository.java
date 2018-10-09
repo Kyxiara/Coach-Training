@@ -39,4 +39,23 @@ public class UserRepository {
             return null;
         }
     }
+
+    public void update(User User) {
+        new updateAsyncTask(userDao).execute(User);
+    }
+
+    private static class updateAsyncTask extends AsyncTask<User, Void, Void> {
+
+        private UserDao asyncTaskDao;
+
+        updateAsyncTask(UserDao dao) {
+            asyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final User... params) {
+            asyncTaskDao.update(params[0]);
+            return null;
+        }
+    }
 }
