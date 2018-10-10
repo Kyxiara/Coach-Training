@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kellynarboux.coach_training.db.Gender;
 import com.example.kellynarboux.coach_training.db.User;
@@ -90,8 +89,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
                 weight.setText(String.format(Locale.FRANCE, "%.2f", currentUser.getWeight()));
                 size.setText(String.format(Locale.FRANCE, "%d", currentUser.getHeight()));
 
-                float myImc = calculIMC(currentUser.getWeight(), currentUser.getHeight());
-                setIMC(myImc);
+                refreshImc(currentUser);
                 pseudo.setText("Pseudo : " + currentUser.getPseudo());
             }
         };
@@ -114,6 +112,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
                 } catch (NumberFormatException nfe){
                     Log.d("Warning", nfe.toString());
                 }
+                refreshImc(currentUser);
                 modification = true;
             }
             @Override
@@ -131,6 +130,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
                 LiveData<List<User>> users = userViewModel.getAllUsers();
                 User currentUser = users.getValue().get(0);
                 currentUser.setHeight(Integer.parseInt(s.toString()));
+                refreshImc(currentUser);
                 modification = true;
             }
             @Override
@@ -153,7 +153,8 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
         return weight / (h * h);
     }
 
-    public void setIMC(float value){
+    public void refreshImc(User currentUser){
+        float value = calculIMC(currentUser.getWeight(), currentUser.getHeight());
         imc.setText("IMC : " + String.format(Locale.FRANCE, "%.2f", value));
         int color;
         if(value < 18 || value > 25){
