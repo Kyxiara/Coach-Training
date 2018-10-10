@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.kellynarboux.coach_training.db.Gender;
@@ -43,6 +44,8 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
     EditText weight;
     EditText size;
     TextView imc;
+    SeekBar seekBar;
+    TextView state_imc;
 
     private boolean modification = false;
 
@@ -76,6 +79,8 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
         size = findViewById(R.id.size);  // TODO change size to height
 
         imc = findViewById(R.id.imc);
+        seekBar = findViewById(R.id.seek_bar);
+        state_imc = findViewById(R.id.state_imc);
 
         // Create the observer which updates the UI.
         final Observer<List<User>> userObserver = users -> {
@@ -156,13 +161,38 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
     public void refreshImc(User currentUser){
         float value = calculIMC(currentUser.getWeight(), currentUser.getHeight());
         imc.setText("IMC : " + String.format(Locale.FRANCE, "%.2f", value));
+        int progressBarValue = (int) value;
+        if (progressBarValue < 15) progressBarValue = 15;
+        else if (progressBarValue > 42) progressBarValue = 42;
+        seekBar.setProgress(progressBarValue - 15);
+
         int color;
-        if(value < 18 || value > 25){
-            color = Color.RED;
+        String state = "";
+        if(progressBarValue <= 16){
+            state = "Dénutrition";
+            color = Color.parseColor("#0034f4");
+        } else if (progressBarValue <= 18){
+            state = "Maigreur";
+            color = Color.parseColor("#00ebf4");
+        } else if (progressBarValue <= 25){
+            state = "Corpulence normale";
+            color = Color.parseColor("#00b100");
+        } else if (progressBarValue <= 30){
+            state = "Surpoids";
+            color = Color.parseColor("#ffff00");
+        } else if (progressBarValue <= 35){
+            state = "Obésité modérée";
+            color = Color.parseColor("#ffae00");
+        } else if (progressBarValue <= 40){
+            state = "Obésité sévère";
+            color = Color.parseColor("#ff0000");
         } else {
-            color = Color.GREEN;
+            state = "Obésité morbide";
+            color = Color.parseColor("#ff78ff");
         }
-        imc.setTextColor(color);
+
+        state_imc.setTextColor(color);
+        state_imc.setText(state);
     }
 
     @Override

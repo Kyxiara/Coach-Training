@@ -19,7 +19,7 @@ public abstract class Exercise {
      */
     public static Exercise textToExercise(String text) {
         Matcher m = p.matcher(text);
-        boolean b = m.matches();
+        boolean b = m.find();
         if (b) {
             if(m.group(2) != null){
                 String type = m.group(2);
