@@ -11,14 +11,14 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application
-        tools:replace="android:label"
         android:allowBackup="true"
         android:icon="@mipmap/my_icon"
         android:label="Virtual Coach Training"
         android:roundIcon="@mipmap/my_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:label">
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_login" />
@@ -41,6 +41,7 @@
         <activity android:name=".ProfilActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".SettingActivity" />
+        <activity android:name=".EndExercice"></activity>
     </application>
 
 </manifest>

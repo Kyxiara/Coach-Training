@@ -1,7 +1,9 @@
 package com.example.kellynarboux.coach_training;
 
+import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ProgressBar;
@@ -14,6 +16,7 @@ import com.vikramezhil.droidspeech.DroidSpeech;
 import com.vikramezhil.droidspeech.OnDSListener;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class CountExercise extends AppCompatActivity implements OnDSListener {
@@ -22,6 +25,8 @@ public class CountExercise extends AppCompatActivity implements OnDSListener {
     CountableExercise exercise;
     int counter = 0;
     private ProgressBar progressBarCircle;
+    private TextToSpeech tts;
+    DroidSpeech droidSpeech;
 
     private static final Pattern p = Pattern.compile("(\\D*(\\d+)\\D*)*");
 
@@ -32,6 +37,14 @@ public class CountExercise extends AppCompatActivity implements OnDSListener {
 
         exercise = new CountableExercise(CountableExerciseType.valueOf(getIntent().getStringExtra("myName")), getIntent().getIntExtra("myNb", 10));
 
+        tts = new TextToSpeech(CountExercise.this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                tts.speak("C'est parti pour " + exercise.getCount() + exercise.getName(), TextToSpeech.QUEUE_ADD, null);
+            }
+        });
+        tts.setLanguage(Locale.FRANCE);
+
         count = findViewById(R.id.id_count);
         name = findViewById(R.id.id_nameEx);
         count.setText(counter + "/" + exercise.getCount());
@@ -41,7 +54,7 @@ public class CountExercise extends AppCompatActivity implements OnDSListener {
         progressBarCircle.setMax(exercise.getCount());
         progressBarCircle.setProgress(counter);
 
-        DroidSpeech droidSpeech = new DroidSpeech(this, null);
+        droidSpeech = new DroidSpeech(this, null);
         droidSpeech.setOnDroidSpeechListener(this);
         droidSpeech.startDroidSpeechRecognition();
     }
@@ -102,12 +115,19 @@ public class CountExercise extends AppCompatActivity implements OnDSListener {
                 if (nb > counter && nb <= exercise.getCount()) counter = nb;
                 count.setText(counter + "/" + exercise.getCount());
                 progressBarCircle.setProgress(counter);
+
+                if (counter == exercise.getCount() / 2)
+                    tts.speak("Courage ! Vous en êtes à la moitié !", TextToSpeech.QUEUE_ADD, null);
+                if (counter == exercise.getCount() - 2)
+                    tts.speak("Encore un petit effort !", TextToSpeech.QUEUE_ADD, null);
+                if (counter == exercise.getCount()){
+                    droidSpeech.closeDroidSpeechOperations();
+                    Intent myIntent = new Intent(CountExercise.this, EndExercice.class);
+                    myIntent.putExtra("nameExercice", exercise.getName());
+                    myIntent.putExtra("nbExercice", exercise.getCount());
+                    startActivity(myIntent);
+                }
             }
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 }
