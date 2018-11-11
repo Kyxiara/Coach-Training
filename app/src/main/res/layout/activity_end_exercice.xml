@@ -5,35 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:id="@+id/drawerEnd">
+    android:id="@+id/drawerEnd"
+    android:background="@drawable/img_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarEnd"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/colorPrimary">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#80894a93">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarEnd"
+                android:layout_width="match_parent"
+                android:layout_height="56dp">
+            </android.support.v7.widget.Toolbar>
+
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 android:fontFamily="sans-serif-condensed"
-                android:gravity="center_vertical"
-                android:text="Fin de l'exercice"
+                android:gravity="center"
+                android:text="FIN DE L'EXERCICE"
                 android:textColor="@android:color/background_light"
                 android:textSize="24sp"
-                tools:ignore="HardcodedText"
-                tools:layout_editor_absoluteX="16dp" />
-        </android.support.v7.widget.Toolbar>
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Félicitation !"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="35sp"
             android:textStyle="bold"
             android:gravity="center_horizontal"
@@ -44,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="..."
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="25sp"
             android:textStyle="bold"
             android:gravity="center_horizontal"
@@ -61,7 +68,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reommencez"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"
+                android:background="#80894a93"
+                android:padding="10dp"
+                android:textColor="@android:color/white"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -72,9 +82,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white"
-        app:itemIconTint="@android:color/black"
-        app:itemTextColor="@android:color/black"
+        android:background="@drawable/img_menu"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
         app:menu="@menu/navigation"
         app:theme="@style/NavigationDrawerStyle">
         <LinearLayout

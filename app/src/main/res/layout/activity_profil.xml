@@ -5,41 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfilActivity"
-    android:id="@+id/drawerProfil">
+    android:id="@+id/drawerProfil"
+    android:background="@drawable/img_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarProfil"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/colorPrimary">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#80894a93">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarProfil"
+                android:layout_width="match_parent"
+                android:layout_height="56dp">
+            </android.support.v7.widget.Toolbar>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 android:fontFamily="sans-serif-condensed"
-                android:gravity="center_vertical"
-                android:text="Profil"
+                android:gravity="center"
+                android:text="PROFIL"
                 android:textColor="@android:color/background_light"
                 android:textSize="24sp"
-                tools:ignore="HardcodedText"
-                tools:layout_editor_absoluteX="16dp" />
-        </android.support.v7.widget.Toolbar>
+                android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/pseudo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:text="@string/pseudo_prompt"
-            android:textColor="@android:color/black"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/avatar"
@@ -49,113 +44,159 @@
             android:layout_marginTop="10dp"
             app:srcCompat="@drawable/avatar_nul" />
 
+        <TextView
+            android:id="@+id/pseudo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center_horizontal"
+            android:text="@string/pseudo_prompt"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView2"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Poids : "
-                android:textColor="@android:color/black"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginRight="30dp">
 
-            <EditText
-                android:id="@+id/weight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:width="50dp"
-                android:ems="10"
-                android:focusable="auto"
-                android:inputType="numberDecimal"
-                android:minWidth="70dp"
-                android:textColor="@android:color/black"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="POIDS"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:gravity="center_horizontal"/>
 
-            <TextView
-                android:id="@+id/textView3"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:width="50dp"
+                        android:ems="10"
+                        android:focusable="auto"
+                        android:inputType="numberDecimal"
+                        android:minWidth="70dp"
+                        android:textColor="@android:color/white"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="kg"
+                        android:textColor="@android:color/white"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="kg"
-                android:textColor="@android:color/black"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginLeft="30dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TAILLE"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:gravity="center_horizontal"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:width="50dp"
+                        android:ems="10"
+                        android:focusable="auto"
+                        android:inputType="number"
+                        android:minWidth="70dp"
+                        android:textColor="@android:color/white"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="cm"
+                        android:textColor="@android:color/white"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:background="#80894a93"
+            android:layout_margin="20dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/imc"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Taille : "
-                android:textColor="@android:color/black"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/imc_prompt"
+                android:textColor="@android:color/white"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/size"
-                android:layout_width="wrap_content"
+            <SeekBar
+                android:id="@+id/seek_bar"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:width="50dp"
-                android:ems="10"
-                android:focusable="auto"
-                android:inputType="number"
-                android:minWidth="70dp"
-                android:textColor="@android:color/black"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/barre_imc"
+                android:max="27"
+                android:progress="0"
+                android:progressDrawable="@android:color/transparent"
+                android:thumb="@drawable/curseur" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/state_imc"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="cm"
-                android:textColor="@android:color/black"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
                 android:textSize="25sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"/>
+
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/imc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:text="@string/imc_prompt"
-            android:textColor="@android:color/black"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <SeekBar
-            android:id="@+id/seek_bar"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/barre_imc"
-            android:max="27"
-            android:progress="0"
-            android:progressDrawable="@android:color/transparent"
-            android:thumb="@drawable/curseur" />
-
-        <TextView
-            android:id="@+id/state_imc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:textSize="25sp"
-            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -165,9 +206,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white"
-        app:itemIconTint="@android:color/black"
-        app:itemTextColor="@android:color/black"
+        android:background="@drawable/img_menu"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
         app:menu="@menu/navigation"
         app:theme="@style/NavigationDrawerStyle">
         <LinearLayout

@@ -68,6 +68,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
         mToogle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         navigationView = findViewById(R.id.nav_viewProfil);
         navigationView.setNavigationItemSelectedListener(this);
@@ -95,7 +96,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
                 size.setText(String.format(Locale.FRANCE, "%d", currentUser.getHeight()));
 
                 refreshImc(currentUser);
-                pseudo.setText("Pseudo : " + currentUser.getPseudo());
+                pseudo.setText(currentUser.getPseudo());
             }
         };
 

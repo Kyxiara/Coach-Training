@@ -5,56 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity"
-    android:id="@+id/register_drawer">
+    android:id="@+id/register_drawer"
+    android:background="@drawable/img_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/register_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/colorPrimary">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#80894a93">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/register_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp">
+            </android.support.v7.widget.Toolbar>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 android:fontFamily="sans-serif-condensed"
-                android:gravity="center_vertical"
-                android:text="S'enregistrer"
+                android:gravity="center"
+                android:text="S'ENREGISTRER"
                 android:textColor="@android:color/background_light"
                 android:textSize="24sp"
-                tools:ignore="HardcodedText"
-                tools:layout_editor_absoluteX="16dp" />
-        </android.support.v7.widget.Toolbar>
+                android:textStyle="bold"/>
 
-        <ScrollView
+        </RelativeLayout>
+
+        <LinearLayout
             android:id="@+id/register_form"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:id="@+id/register_form_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="30dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="#80894a93"
+            android:layout_margin="20dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Nom : "
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="25sp"
+                        android:text="Nom"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <android.support.design.widget.TextInputLayout
@@ -68,25 +64,24 @@
                             android:inputType="textPersonName"
                             android:maxLines="1"
                             android:singleLine="true"
-                            android:textSize="25sp" />
+                            android:textSize="20sp"
+                            android:textColor="@android:color/white"/>
 
                     </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Poids"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Poids : "
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="wrap_content"
@@ -94,13 +89,14 @@
 
                         <EditText
                             android:id="@+id/weight"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="5"
                             android:importantForAutofill="no"
                             android:inputType="numberDecimal"
-                            android:textSize="25sp"
-                            tools:targetApi="o" />
+                            android:textSize="20sp"
+                            tools:targetApi="o"
+                            android:textColor="@android:color/white"/>
                     </android.support.design.widget.TextInputLayout>
 
                     <TextView
@@ -108,30 +104,29 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="kg"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="25sp"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Taille"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Taille : "
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content">
 
                         <EditText
                             android:id="@+id/height"
@@ -140,8 +135,9 @@
                             android:ems="5"
                             android:importantForAutofill="no"
                             android:inputType="number"
-                            android:textSize="25sp"
-                            tools:targetApi="o" />
+                            android:textSize="20sp"
+                            tools:targetApi="o"
+                            android:textColor="@android:color/white"/>
                     </android.support.design.widget.TextInputLayout>
 
                     <TextView
@@ -149,27 +145,19 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="cm"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="25sp"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Age : "
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Age"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="wrap_content"
@@ -182,44 +170,54 @@
                             android:ems="5"
                             android:importantForAutofill="no"
                             android:inputType="numberSigned"
-                            android:textSize="25sp"
-                            tools:targetApi="o" />
+                            android:textSize="20sp"
+                            tools:targetApi="o"
+                            android:textColor="@android:color/white"/>
                     </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Sexe : "
-                    android:textColor="@android:color/background_dark"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:id="@+id/gender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:spinnerMode="dropdown" />
-            </LinearLayout>
-
-                <Button
-                    android:id="@+id/register"
-                    style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/action_sign_in"
-                    android:textStyle="bold" />
+                    android:layout_height="match_parent"
+                    android:text="Sexe"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="15dp"/>
 
-            </LinearLayout>
-        </ScrollView>
+            <RadioGroup
+                android:id="@+id/gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                <RadioButton
+                    android:id="@+id/Femme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Femme"
+                    android:textColor="@android:color/white"
+                    android:layout_marginRight="30dp"/>
+                <RadioButton
+                    android:id="@+id/Homme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Homme"
+                    android:textColor="@android:color/white"/>
+            </RadioGroup>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/register"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_sign_in"
+            android:textStyle="bold"
+            android:background="#80894a93"
+            android:layout_marginHorizontal="75dp"
+            android:textColor="@android:color/white"/>
 
     </LinearLayout>
 
@@ -229,9 +227,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white"
-        app:itemIconTint="@android:color/black"
-        app:itemTextColor="@android:color/black"
+        android:background="@drawable/img_menu"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
         app:menu="@menu/navigation"
         app:theme="@style/NavigationDrawerStyle">
         <LinearLayout

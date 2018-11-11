@@ -5,47 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingActivity"
-    android:id="@+id/drawerSetting">
+    android:id="@+id/drawerSetting"
+    android:background="@drawable/img_background">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarSetting"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/colorPrimary">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#80894a93">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarSetting"
+                android:layout_width="match_parent"
+                android:layout_height="56dp">
+            </android.support.v7.widget.Toolbar>
+
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 android:fontFamily="sans-serif-condensed"
-                android:gravity="center_vertical"
-                android:text="Paramètres"
+                android:gravity="center"
+                android:text="PARAMETRES"
                 android:textColor="@android:color/background_light"
                 android:textSize="24sp"
-                tools:ignore="HardcodedText"
-                tools:layout_editor_absoluteX="16dp" />
-        </android.support.v7.widget.Toolbar>
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
 
         <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/reset"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="138dp"
-            android:layout_height="94dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="256dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Reset"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/toolbarSetting"
-            app:layout_constraintVertical_bias="0.0" />
-    </android.support.constraint.ConstraintLayout>
+            android:text="Rénitialiser"
+            android:background="#00000000"
+            android:textColor="@android:color/white"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"/>
+
+    </LinearLayout>
 
     <android.support.design.widget.NavigationView
         app:headerLayout="@layout/header"
@@ -53,9 +54,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white"
-        app:itemIconTint="@android:color/black"
-        app:itemTextColor="@android:color/black"
+        android:background="@drawable/img_menu"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
         app:menu="@menu/navigation"
         app:theme="@style/NavigationDrawerStyle">
         <LinearLayout

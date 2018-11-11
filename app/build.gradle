@@ -45,5 +45,5 @@ dependencies {
     implementation "android.arch.persistence.room:guava:$room_version"
     // Test helpers
     testImplementation "android.arch.persistence.room:testing:$room_version"
-    implementation project(':openCVLibrary341')
+    implementation project(':openCVLibrary343')
 }
