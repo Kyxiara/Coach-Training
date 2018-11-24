@@ -1,7 +1,6 @@
-package com.example.kellynarboux.coach_training;
+package com.example.kellynarboux.coach_training.activities;
 
 import android.app.Activity;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -24,15 +23,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.kellynarboux.coach_training.R;
 import com.example.kellynarboux.coach_training.db.Gender;
 import com.example.kellynarboux.coach_training.db.User;
 import com.example.kellynarboux.coach_training.db.UserViewModel;

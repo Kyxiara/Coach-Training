@@ -1,4 +1,4 @@
-package com.example.kellynarboux.coach_training;
+package com.example.kellynarboux.coach_training.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -11,13 +11,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.kellynarboux.coach_training.R;
 import com.example.kellynarboux.coach_training.db.UserViewModel;
 
 import java.util.List;
-import java.util.Objects;
 
 public class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private UserViewModel userViewModel;

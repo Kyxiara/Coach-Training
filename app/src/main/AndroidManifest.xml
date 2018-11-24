@@ -35,12 +35,12 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label">
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".CountExercise" />
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.CountExercise" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".activities.SplashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,11 +53,12 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".ProfilActivity" />
-        <activity android:name=".CalendarActivity" />
-        <activity android:name=".SettingActivity" />
-        <activity android:name=".EndExercice" />
-        <activity android:name=".OpenCVActivity" />
+        <activity android:name=".activities.ProfilActivity" />
+        <activity android:name=".activities.CalendarActivity" />
+        <activity android:name=".activities.SettingActivity" />
+        <activity android:name=".activities.EndExercice" />
+        <activity android:name=".activities.OpenCVActivity" />
+        <receiver android:name="com.example.kellynarboux.coach_training.notification.TrainingTimeReceiver" />
     </application>
 
 </manifest>

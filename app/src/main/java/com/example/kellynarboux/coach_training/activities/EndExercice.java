@@ -1,10 +1,11 @@
-package com.example.kellynarboux.coach_training;
+package com.example.kellynarboux.coach_training.activities;
 
 import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -14,24 +15,28 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kellynarboux.coach_training.R;
 import com.example.kellynarboux.coach_training.db.UserViewModel;
 import com.example.kellynarboux.coach_training.model.CountableExercise;
 import com.example.kellynarboux.coach_training.model.Exercise;
-import android.support.v7.widget.Toolbar;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class EndExercice extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    Button buttonOpenCV;
-    Button button_begin;
+    TextView result;
+    Button button_start;
+    TextToSpeech tts;
+
     String textExercise;
     Toolbar toolbar;
     DrawerLayout mDrawerLayout;
@@ -42,30 +47,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_end_exercice);
+
+        result = findViewById(R.id.textResult);
+        result.setText("Vous avez fait " + getIntent().getIntExtra("nbExercice", 0) + " " + getIntent().getStringExtra("nameExercice") + "s");
+
+        tts = new TextToSpeech(EndExercice.this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                tts.speak("Félicitation !", TextToSpeech.QUEUE_ADD, null);
+            }
+        });
+        tts.setLanguage(Locale.FRANCE);
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.CAMERA) && ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.RECORD_AUDIO)) {
         } else {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO}, 1);
+                    new String[]{Manifest.permission.RECORD_AUDIO}, 1);
         }
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar)findViewById(R.id.toolbarEnd);
         setSupportActionBar(toolbar);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerEnd);
         mToogle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToogle);
         mToogle.syncState();
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
         mToogle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_viewEnd);
         navigationView.setNavigationItemSelectedListener(this);
 
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
@@ -78,27 +94,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        button_begin = (Button) findViewById(R.id.button_begin);
-        button_begin.setOnClickListener(new View.OnClickListener() {
+        button_start = (Button) findViewById(R.id.button_start);
+        button_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startSpeechToText();
             }
         });
-
-        buttonOpenCV = (Button) findViewById(R.id.buttonOpenCV);
-        buttonOpenCV.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, OpenCVActivity.class);
-            startActivity(intent);
-        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mToogle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return mToogle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     private void startSpeechToText() {
@@ -139,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (exercise != null) {
             CountableExercise countableExercise = (CountableExercise) exercise;
-            Intent myIntent = new Intent(MainActivity.this, CountExercise.class);
+            Intent myIntent = new Intent(EndExercice.this, CountExercise.class);
             myIntent.putExtra("myName", countableExercise.getName());
             myIntent.putExtra("myNb", countableExercise.getCount());
             startActivity(myIntent);
@@ -150,18 +157,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.navigation_profil :
-                startActivity(new Intent(MainActivity.this, ProfilActivity.class));
+                startActivity(new Intent(EndExercice.this, ProfilActivity.class));
                 break;
             case R.id.navigation_exercices :
+                startActivity(new Intent(EndExercice.this, MainActivity.class));
                 break;
             case R.id.navigation_calendrier :
-                startActivity(new Intent(MainActivity.this, CalendarActivity.class));
+                startActivity(new Intent(EndExercice.this, CalendarActivity.class));
                 break;
             case R.id.navigation_options :
-                startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                startActivity(new Intent(EndExercice.this, SettingActivity.class));
                 break;
             case R.id.navigation_register :
-                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+                startActivity(new Intent(EndExercice.this, RegisterActivity.class));
                 break;
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);

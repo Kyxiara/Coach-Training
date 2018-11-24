@@ -1,12 +1,12 @@
-package com.example.kellynarboux.coach_training;
+package com.example.kellynarboux.coach_training.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.example.kellynarboux.coach_training.R;
 
 public class SplashScreen extends Activity {
     private SeekBar mProgress;

@@ -1,10 +1,12 @@
-package com.example.kellynarboux.coach_training;
+package com.example.kellynarboux.coach_training.activities;
 
-import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,20 +14,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.kellynarboux.coach_training.R;
 import com.example.kellynarboux.coach_training.db.AppDatabase;
 import com.example.kellynarboux.coach_training.db.UserViewModel;
+import com.example.kellynarboux.coach_training.notification.TrainingTimeReceiver;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
-import java.util.Objects;
 
 public class SettingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     Toolbar toolbar;
@@ -71,13 +70,17 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
         });
 
         reset = findViewById(R.id.reset);
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ResetAsyncTask resetTask = new ResetAsyncTask(SettingActivity.this);
-                resetTask.execute();
-            }
+        reset.setOnClickListener(view -> {
+            ResetAsyncTask resetTask = new ResetAsyncTask(SettingActivity.this);
+            resetTask.execute();
         });
+
+        // Notification
+        Intent intent = new Intent(SettingActivity.this, TrainingTimeReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(SettingActivity.this, 0, intent, 0);
+        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+        if (am != null)
+            am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
     }
 
     @Override

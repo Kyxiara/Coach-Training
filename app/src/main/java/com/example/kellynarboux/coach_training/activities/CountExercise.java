@@ -1,7 +1,6 @@
-package com.example.kellynarboux.coach_training;
+package com.example.kellynarboux.coach_training.activities;
 
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kellynarboux.coach_training.R;
 import com.example.kellynarboux.coach_training.model.CountableExercise;
 import com.example.kellynarboux.coach_training.model.CountableExerciseType;
 import com.vikramezhil.droidspeech.DroidSpeech;

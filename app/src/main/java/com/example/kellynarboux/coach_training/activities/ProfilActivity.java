@@ -1,4 +1,4 @@
-package com.example.kellynarboux.coach_training;
+package com.example.kellynarboux.coach_training.activities;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.kellynarboux.coach_training.R;
 import com.example.kellynarboux.coach_training.db.Gender;
 import com.example.kellynarboux.coach_training.db.User;
 import com.example.kellynarboux.coach_training.db.UserViewModel;
