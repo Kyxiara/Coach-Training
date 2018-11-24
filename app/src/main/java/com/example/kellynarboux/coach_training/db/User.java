@@ -38,11 +38,12 @@ public class User {
         this.gender = gender.name();
     }
 
+    @NonNull
     public String getPseudo() {
         return pseudo;
     }
 
-    public void setPseudo(String pseudo) {
+    public void setPseudo(@NonNull String pseudo) {
         this.pseudo = pseudo;
     }
 

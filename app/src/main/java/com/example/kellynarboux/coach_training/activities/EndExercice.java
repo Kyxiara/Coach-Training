@@ -24,11 +24,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kellynarboux.coach_training.R;
+import com.example.kellynarboux.coach_training.db.Training;
+import com.example.kellynarboux.coach_training.db.TrainingViewModel;
 import com.example.kellynarboux.coach_training.db.UserViewModel;
 import com.example.kellynarboux.coach_training.model.CountableExercise;
 import com.example.kellynarboux.coach_training.model.Exercise;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class EndExercice extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,6 +46,7 @@ public class EndExercice extends AppCompatActivity implements NavigationView.OnN
     ActionBarDrawerToggle mToogle;
     NavigationView navigationView;
     UserViewModel userViewModel;
+    TrainingViewModel trainingViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,27 +54,22 @@ public class EndExercice extends AppCompatActivity implements NavigationView.OnN
         setContentView(R.layout.activity_end_exercice);
 
         result = findViewById(R.id.textResult);
-        result.setText("Vous avez fait " + getIntent().getIntExtra("nbExercice", 0) + " " + getIntent().getStringExtra("nameExercice") + "s");
+        String exerciceName = getIntent().getStringExtra("nameExercice");
+        result.setText("Vous avez fait " + getIntent().getIntExtra("nbExercice", 0) + " " + exerciceName + "s");
 
-        tts = new TextToSpeech(EndExercice.this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-                tts.speak("Félicitation !", TextToSpeech.QUEUE_ADD, null);
-            }
-        });
+        tts = new TextToSpeech(EndExercice.this, i -> tts.speak("Félicitation !", TextToSpeech.QUEUE_ADD, null));
         tts.setLanguage(Locale.FRANCE);
 
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.RECORD_AUDIO)) {
-        } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.RECORD_AUDIO}, 1);
         }
 
-        toolbar = (Toolbar)findViewById(R.id.toolbarEnd);
+        toolbar = findViewById(R.id.toolbarEnd);
         setSupportActionBar(toolbar);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerEnd);
+        mDrawerLayout = findViewById(R.id.drawerEnd);
         mToogle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToogle);
         mToogle.syncState();
@@ -81,26 +80,27 @@ public class EndExercice extends AppCompatActivity implements NavigationView.OnN
         mToogle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_viewEnd);
+        navigationView = findViewById(R.id.nav_viewEnd);
         navigationView.setNavigationItemSelectedListener(this);
 
+        trainingViewModel = ViewModelProviders.of(this).get(TrainingViewModel.class);
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         userViewModel.getAllUsers().observe(this, userList -> {
             if(userList != null && userList.isEmpty()){  // FIXME
                 navigationView.getMenu().findItem(R.id.navigation_profil).setVisible(false);
                 navigationView.getMenu().findItem(R.id.navigation_calendrier).setVisible(false);
+
+                // register the finished training in the db
+                Exercise exercise = Exercise.textToExercise(exerciceName);
+                Training training = new Training(userList.get(0).getPseudo(), new Date(), exercise);
+                trainingViewModel.insert(training);
             }else{
                 navigationView.getMenu().findItem(R.id.navigation_register).setVisible(false);
             }
         });
 
-        button_start = (Button) findViewById(R.id.button_start);
-        button_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startSpeechToText();
-            }
-        });
+        button_start = findViewById(R.id.button_start);
+        button_start.setOnClickListener(v -> startSpeechToText());
     }
 
     @Override
@@ -141,7 +141,7 @@ public class EndExercice extends AppCompatActivity implements NavigationView.OnN
             }
         }
 
-        Log.d("tag",textExercise.toString());
+        Log.d("tag", textExercise);
         Exercise exercise = Exercise.textToExercise(textExercise);
 
         if (exercise != null) {
