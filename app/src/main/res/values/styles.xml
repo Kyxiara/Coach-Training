@@ -21,4 +21,9 @@
         <item name="android:maxHeight">20dip</item>
     </style>
 
+    <style name="MyTimePickerDialogTheme" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
 </resources>

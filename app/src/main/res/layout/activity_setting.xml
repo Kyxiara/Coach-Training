@@ -46,6 +46,28 @@
             android:gravity="center_vertical"
             android:paddingLeft="20dp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Rappel : "
+                android:textColor="@android:color/white"
+                android:paddingLeft="20dp"
+                android:textSize="15sp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/change_time"
+                android:text="time"
+                android:onClick="showTimePickerDialog"
+                android:background="#00000000"
+                android:textColor="@android:color/white"
+                android:gravity="center"/>
+        </LinearLayout>
+
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
