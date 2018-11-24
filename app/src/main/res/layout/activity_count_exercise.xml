@@ -6,41 +6,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CountExercise"
-    android:orientation="vertical">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarProfil"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/colorPrimary">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="sans-serif-condensed"
-            android:gravity="center_vertical"
-            android:text="Exercice"
-            android:textColor="@android:color/background_light"
-            android:textSize="24sp"
-            tools:ignore="HardcodedText"
-            tools:layout_editor_absoluteX="16dp" />
-    </android.support.v7.widget.Toolbar>
-
-    <TextView
-        android:id="@+id/id_nameEx"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="192dp"
-        tools:layout_editor_absoluteY="209dp"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:textSize="25sp"
-        android:paddingTop="20dp"/>
+    android:orientation="vertical"
+    android:background="@drawable/img_background">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:background="#80894a93">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarProfil"
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+        </android.support.v7.widget.Toolbar>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:text="EXERCICE"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="30dp">
 
         <ProgressBar
             android:id="@+id/progressBarCircle"
@@ -63,9 +59,22 @@
             tools:layout_editor_absoluteY="89dp"
             android:textSize="25sp"
             android:gravity="center"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white"/>
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/id_nameEx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="192dp"
+        tools:layout_editor_absoluteY="209dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:paddingTop="20dp"
+        android:textColor="@android:color/white"/>
 
 
 </android.support.v7.widget.LinearLayoutCompat>

@@ -48,7 +48,7 @@ public class CountExercise extends AppCompatActivity implements OnDSListener {
         count = findViewById(R.id.id_count);
         name = findViewById(R.id.id_nameEx);
         count.setText(counter + "/" + exercise.getCount());
-        name.setText(exercise.getName());
+        name.setText(exercise.getName().toUpperCase());
 
         progressBarCircle = findViewById(R.id.progressBarCircle);
         progressBarCircle.setMax(exercise.getCount());

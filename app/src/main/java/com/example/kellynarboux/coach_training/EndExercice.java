@@ -78,6 +78,7 @@ public class EndExercice extends AppCompatActivity implements NavigationView.OnN
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
         mToogle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         navigationView = (NavigationView) findViewById(R.id.nav_viewEnd);
         navigationView.setNavigationItemSelectedListener(this);

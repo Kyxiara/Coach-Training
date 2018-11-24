@@ -19,6 +19,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +28,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -43,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private EditText weightView;
     private EditText heightView;
     private EditText ageView;
-    private Spinner genderView;
+    private RadioGroup genderView;
 
     Toolbar toolbar;
     DrawerLayout mDrawerLayout;
@@ -67,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
         mToogle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         navigationView = (NavigationView) findViewById(R.id.register_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -86,14 +90,9 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         weightView = findViewById(R.id.weight);
         heightView = findViewById(R.id.height);
         ageView = findViewById(R.id.age);
-        genderView = findViewById(R.id.gender);
         Button register = findViewById(R.id.register);
 
-        // add values to the spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.gender, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        genderView.setAdapter(adapter);
+        genderView = findViewById(R.id.gender);
 
         register.setOnClickListener(new OnClickListener() {
             @Override
@@ -121,6 +120,10 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
     private void attemptRegister() {
 
+        RadioButton radioButton = (RadioButton)findViewById(genderView.getCheckedRadioButtonId());
+        String genderVal = radioButton.getText().toString();
+        Log.d("GENRE", genderVal);
+
         // Reset errors.
         nameView.setError(null);
 
@@ -129,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         float weight = Float.valueOf(weightView.getText().toString());
         int height = Integer.valueOf(heightView.getText().toString());
         int age = Integer.parseInt(ageView.getText().toString());
-        Gender gender = Gender.valueOf(genderView.getSelectedItem().toString());
+        Gender gender = Gender.valueOf(genderVal);
 
         boolean cancel = false;
         View focusView = null;

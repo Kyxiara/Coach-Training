@@ -5,28 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CalendarActivity"
-    android:id="@+id/drawerCalendar">
+    android:id="@+id/drawerCalendar"
+    android:background="@drawable/img_background" >
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarCalendar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/colorPrimary">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#80894a93">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarCalendar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp">
+            </android.support.v7.widget.Toolbar>
+
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 android:fontFamily="sans-serif-condensed"
-                android:gravity="center_vertical"
-                android:text="Calendrier"
+                android:gravity="center"
+                android:text="CALENDRIER"
                 android:textColor="@android:color/background_light"
                 android:textSize="24sp"
-                tools:ignore="HardcodedText"
-                tools:layout_editor_absoluteX="16dp" />
-        </android.support.v7.widget.Toolbar>
-    </android.support.constraint.ConstraintLayout>
+                android:textStyle="bold"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <android.support.design.widget.NavigationView
         app:headerLayout="@layout/header"
@@ -34,9 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white"
-        app:itemIconTint="@android:color/black"
-        app:itemTextColor="@android:color/black"
+        android:background="@drawable/img_menu"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
         app:menu="@menu/navigation"
         app:theme="@style/NavigationDrawerStyle">
         <LinearLayout

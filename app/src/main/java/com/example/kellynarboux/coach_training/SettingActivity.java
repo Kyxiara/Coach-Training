@@ -52,6 +52,7 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
         mToogle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         navigationView = findViewById(R.id.nav_viewSetting);
         navigationView.setNavigationItemSelectedListener(this);

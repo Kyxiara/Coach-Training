@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:background="@drawable/header_image"
+    android:layout_height="150dp"
+    android:background="@drawable/degrade_violet"
     android:padding="20dp">
 
     <TextView
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="VIRTUAL COACH TRAINING"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -23,8 +23,8 @@
         android:fontFamily="sans-serif-condensed"
         android:gravity="center_horizontal"
         android:text="@string/menu"
-        android:textColor="@android:color/black"
-        android:textSize="50sp"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
         android:textStyle="bold" />
 
 </LinearLayout>
