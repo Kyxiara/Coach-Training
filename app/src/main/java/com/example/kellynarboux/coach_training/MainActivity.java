@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    Button buttonOpenCV;
     Button button_begin;
     String textExercise;
     Toolbar toolbar;
@@ -80,6 +82,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 startSpeechToText();
             }
+        });
+
+        buttonOpenCV = (Button) findViewById(R.id.buttonOpenCV);
+        buttonOpenCV.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, OpenCVActivity.class);
+            startActivity(intent);
         });
     }
 
