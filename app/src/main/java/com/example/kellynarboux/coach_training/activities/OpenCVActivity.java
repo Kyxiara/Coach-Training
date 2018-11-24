@@ -112,7 +112,8 @@ public class OpenCVActivity extends AppCompatActivity implements CameraBridgeVie
         super.onDestroy();
         if (mOpenCvCameraView != null)
             mOpenCvCameraView.disableView();
-        background.release();
+        if(background != null)
+            background.release();
     }
 
     public void onCameraViewStarted(int width, int height) {
@@ -156,7 +157,7 @@ public class OpenCVActivity extends AppCompatActivity implements CameraBridgeVie
 
         Core.absdiff(background, gray, gray);
         Imgproc.threshold(gray, gray, 25, 255, Imgproc.THRESH_BINARY);
-        Imgproc.dilate(gray, gray, new Mat());
+        //Imgproc.dilate(gray, gray, new Mat());  FIXME
         List<MatOfPoint> cnts = new ArrayList<>();
         Imgproc.findContours(gray, cnts, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
         gray.release();
