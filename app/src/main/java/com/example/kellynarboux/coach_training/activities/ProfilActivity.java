@@ -137,10 +137,12 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
                     return;  // Exit the modification
 
                 LiveData<List<User>> users = userViewModel.getAllUsers();
-                User currentUser = users.getValue().get(0);
-                currentUser.setHeight(Integer.parseInt(s.toString()));
-                refreshImc(currentUser);
-                modification = true;
+                if(users.getValue() != null && !users.getValue().isEmpty()){
+                    User currentUser = users.getValue().get(0);
+                    currentUser.setHeight(Integer.parseInt(s.toString()));
+                    refreshImc(currentUser);
+                    modification = true;
+                }
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

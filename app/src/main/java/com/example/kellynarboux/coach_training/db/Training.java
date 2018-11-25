@@ -10,9 +10,12 @@ import com.example.kellynarboux.coach_training.model.Exercise;
 
 import java.util.Date;
 
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
 @Entity(foreignKeys = @ForeignKey(entity = User.class,
         parentColumns = "pseudo",
-        childColumns = "user_pseudo"),
+        childColumns = "user_pseudo",
+        onDelete = CASCADE),
         primaryKeys = {"user_pseudo","date"},
         indices = {@Index("user_pseudo")})
 public class Training {
