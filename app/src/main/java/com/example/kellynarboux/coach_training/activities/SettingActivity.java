@@ -1,11 +1,8 @@
 package com.example.kellynarboux.coach_training.activities;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -21,12 +18,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.kellynarboux.coach_training.R;
@@ -38,7 +32,6 @@ import com.example.kellynarboux.coach_training.notification.TrainingTimeReceiver
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class SettingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     Toolbar toolbar;
@@ -106,8 +99,6 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
         intent = new Intent(SettingActivity.this, TrainingTimeReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(SettingActivity.this, 0, intent, 0);
         am = (AlarmManager)getSystemService(ALARM_SERVICE);
-        if (am != null)
-            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
     }
 
