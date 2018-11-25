@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         button_begin = findViewById(R.id.button_begin);
         button_begin.setOnClickListener(v -> {
-            lastButtonClicked = buttonOpenCV;
+            lastButtonClicked = button_begin;
             startSpeechToText();
         });
 
