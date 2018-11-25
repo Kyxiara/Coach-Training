@@ -17,7 +17,6 @@ import com.vikramezhil.droidspeech.OnDSListener;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 public class CountExercise extends AppCompatActivity implements OnDSListener {
 
@@ -28,8 +27,6 @@ public class CountExercise extends AppCompatActivity implements OnDSListener {
     private TextToSpeech tts;
     DroidSpeech droidSpeech;
 
-    private static final Pattern p = Pattern.compile("(\\D*(\\d+)\\D*)*");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +34,8 @@ public class CountExercise extends AppCompatActivity implements OnDSListener {
 
         exercise = new CountableExercise(CountableExerciseType.valueOf(getIntent().getStringExtra("myName")), getIntent().getIntExtra("myNb", 10));
 
-        tts = new TextToSpeech(CountExercise.this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-                tts.speak("C'est parti pour " + exercise.getCount() + exercise.getName(), TextToSpeech.QUEUE_ADD, null);
-            }
-        });
+        tts = new TextToSpeech(CountExercise.this, i ->
+                tts.speak("C'est parti pour " + exercise.getCount() + exercise.getName(), TextToSpeech.QUEUE_ADD, null));
         tts.setLanguage(Locale.FRANCE);
 
         count = findViewById(R.id.id_count);
@@ -98,7 +91,7 @@ public class CountExercise extends AppCompatActivity implements OnDSListener {
     {
         try
         {
-            int d = Integer.parseInt(str);
+            Integer.parseInt(str);
         }
         catch(NumberFormatException nfe)
         {

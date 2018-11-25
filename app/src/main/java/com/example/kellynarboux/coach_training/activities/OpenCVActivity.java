@@ -1,6 +1,8 @@
 package com.example.kellynarboux.coach_training.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -8,6 +10,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.kellynarboux.coach_training.R;
+import com.example.kellynarboux.coach_training.model.CountableExercise;
+import com.example.kellynarboux.coach_training.model.CountableExerciseType;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -25,6 +29,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class OpenCVActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
@@ -35,8 +40,11 @@ public class OpenCVActivity extends AppCompatActivity implements CameraBridgeVie
     private static final int MIN_FRAME_INTERVAL = 10;
     private static int FRAME_DIFF_REQUIRED = 5;
 
+    CountableExercise exercise;
+    private int cmptExercise = 0;
+    private TextToSpeech tts;
+
     // openCV variable
-    private static int cmptExercise = 0;
     private static double filter = DEFAULT_FILTER;
     private static boolean isGrowing = false;
     private static double exerciseYMargin = 1.;
@@ -76,6 +84,12 @@ public class OpenCVActivity extends AppCompatActivity implements CameraBridgeVie
 
         setContentView(R.layout.activity_open_cv);
 
+        exercise = new CountableExercise(CountableExerciseType.valueOf(getIntent().getStringExtra("myName")),
+                getIntent().getIntExtra("myNb", 10));
+        tts = new TextToSpeech(OpenCVActivity.this, i ->
+                tts.speak("C'est parti pour " + exercise.getCount() + exercise.getName(), TextToSpeech.QUEUE_ADD, null));
+        tts.setLanguage(Locale.FRANCE);
+
         mOpenCvCameraView = findViewById(R.id.camera_view);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
 
@@ -114,6 +128,11 @@ public class OpenCVActivity extends AppCompatActivity implements CameraBridgeVie
             mOpenCvCameraView.disableView();
         if(background != null)
             background.release();
+        if(tts != null) {
+            tts.stop();
+            tts.shutdown();
+            Log.d(TAG, "TTS Destroyed");
+        }
     }
 
     public void onCameraViewStarted(int width, int height) {
@@ -123,7 +142,8 @@ public class OpenCVActivity extends AppCompatActivity implements CameraBridgeVie
     }
 
     private void onMovementDone(){
-        Runnable r = () -> Toast.makeText(OpenCVActivity.this, cmptExercise + " exercices", Toast.LENGTH_SHORT).show();
+        Runnable r = () -> Toast.makeText(OpenCVActivity.this,
+                cmptExercise + " exercices", Toast.LENGTH_SHORT).show();
         runOnUiThread(r);
     }
 
@@ -199,6 +219,19 @@ public class OpenCVActivity extends AppCompatActivity implements CameraBridgeVie
                         exerciseYMargin++;
                     frameDelta = 0;
                     cmptExercise++;
+
+                    // we handle the cmptExercise
+                    if (cmptExercise == exercise.getCount() / 2)
+                        tts.speak("Courage champion ! Vous en êtes à la moitié !", TextToSpeech.QUEUE_ADD, null);
+                    if (cmptExercise == exercise.getCount() - 2)
+                        tts.speak("Encore un petit effort !", TextToSpeech.QUEUE_ADD, null);
+                    if (cmptExercise == exercise.getCount()){
+                        Intent myIntent = new Intent(OpenCVActivity.this, EndExercice.class);
+                        myIntent.putExtra("nameExercice", exercise.getName());
+                        myIntent.putExtra("nbExercice", exercise.getCount());
+                        startActivity(myIntent);
+                    }
+
                     Log.i("EXERCISE", "going up ! : " + cmptExercise + " exercise(s)");
                     nbrFrameDiffUp = 0;
                     onMovementDone();
@@ -207,7 +240,7 @@ public class OpenCVActivity extends AppCompatActivity implements CameraBridgeVie
             prevY = localMinyY;
         }
 
-        // on ajuste les paramètres pour la prochaine image
+        // we adjust parameters for next frames
         if(nbDetection> 3){
             filter *= 1.1;
             Log.d("PARAM", "=> set filter to " + filter + " since too many noise (" +

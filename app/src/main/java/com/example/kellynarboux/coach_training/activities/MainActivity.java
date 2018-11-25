@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     Button buttonOpenCV;
     Button button_begin;
+    Button lastButtonClicked;
     String textExercise;
     Toolbar toolbar;
     DrawerLayout mDrawerLayout;
@@ -78,12 +79,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         button_begin = findViewById(R.id.button_begin);
-        button_begin.setOnClickListener(v -> startSpeechToText());
+        button_begin.setOnClickListener(v -> {
+            lastButtonClicked = buttonOpenCV;
+            startSpeechToText();
+        });
 
         buttonOpenCV = findViewById(R.id.buttonOpenCV);
         buttonOpenCV.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, OpenCVActivity.class);
-            startActivity(intent);
+            lastButtonClicked = buttonOpenCV;
+            startSpeechToText();
         });
     }
 
@@ -133,7 +137,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (exercise != null) {
             CountableExercise countableExercise = (CountableExercise) exercise;
-            Intent myIntent = new Intent(MainActivity.this, CountExercise.class);
+
+            // we select the activity according to the user's choice of button
+            Class c = (lastButtonClicked == buttonOpenCV) ? OpenCVActivity.class : CountExercise.class;
+            Intent myIntent = new Intent(MainActivity.this, c);
             myIntent.putExtra("myName", countableExercise.getName());
             myIntent.putExtra("myNb", countableExercise.getCount());
             startActivity(myIntent);

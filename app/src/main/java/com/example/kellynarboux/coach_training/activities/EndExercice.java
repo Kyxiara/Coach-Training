@@ -54,8 +54,9 @@ public class EndExercice extends AppCompatActivity implements NavigationView.OnN
         setContentView(R.layout.activity_end_exercice);
 
         result = findViewById(R.id.textResult);
-        String exerciceName = getIntent().getStringExtra("nameExercice");
-        result.setText("Vous avez fait " + getIntent().getIntExtra("nbExercice", 0) + " " + exerciceName + "s");
+        String exerciseName = getIntent().getStringExtra("nameExercice");
+        int execiseNbr = getIntent().getIntExtra("nbExercice", 0);
+        result.setText("Vous avez fait " + execiseNbr + " " + exerciseName + "s");
 
         tts = new TextToSpeech(EndExercice.this, i -> tts.speak("Félicitation !", TextToSpeech.QUEUE_ADD, null));
         tts.setLanguage(Locale.FRANCE);
@@ -89,13 +90,16 @@ public class EndExercice extends AppCompatActivity implements NavigationView.OnN
             if(userList != null && userList.isEmpty()){  // FIXME
                 navigationView.getMenu().findItem(R.id.navigation_profil).setVisible(false);
                 navigationView.getMenu().findItem(R.id.navigation_calendrier).setVisible(false);
-
-                // register the finished training in the db
-                Exercise exercise = Exercise.textToExercise(exerciceName);
-                Training training = new Training(userList.get(0).getPseudo(), new Date(), exercise);
-                trainingViewModel.insert(training);
+                Toast.makeText(this, "Enregistrer vous pour sauvegarder votre progression !", Toast.LENGTH_SHORT).show();
             }else{
                 navigationView.getMenu().findItem(R.id.navigation_register).setVisible(false);
+                // register the finished training in the db
+                Exercise exercise = Exercise.textToExercise(execiseNbr + " " + exerciseName);
+                if(exercise != null && userList != null && !userList.isEmpty()){
+                    Training training = new Training(userList.get(0).getPseudo(), new Date(), exercise);
+                    trainingViewModel.insert(training);
+                    Toast.makeText(this, "votre progression a été sauvegardé!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

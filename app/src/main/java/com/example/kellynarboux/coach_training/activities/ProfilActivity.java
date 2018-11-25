@@ -86,7 +86,7 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
 
         // Create the observer which updates the UI.
         final Observer<List<User>> userObserver = users -> {
-            if (users != null) {
+            if (users != null && !users.isEmpty()) {
                 User currentUser = users.get(0);  // FIXME bidouille
                 int avatarID = R.drawable.avatar_homme;
                 if (Gender.valueOf(currentUser.getGender()) == Gender.Femme)
@@ -111,6 +111,8 @@ public class ProfilActivity extends AppCompatActivity implements NavigationView.
                     return;  // Exit the modification
 
                 LiveData<List<User>> users = userViewModel.getAllUsers();
+                if(users.getValue() == null)
+                    return;  // FIXME
                 User currentUser = users.getValue().get(0);
                 try {
                     String myString = s.toString();
