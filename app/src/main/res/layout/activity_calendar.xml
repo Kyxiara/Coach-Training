@@ -36,6 +36,15 @@
 
         </RelativeLayout>
 
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dateTextAppearance="@style/CalenderViewDateCustomText"
+            android:focusedMonthDateColor="@color/colorAccent"
+            android:theme="@style/CalenderViewCustom"
+            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
+
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
