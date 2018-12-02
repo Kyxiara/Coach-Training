@@ -26,7 +26,7 @@ import android.widget.Toast;
 import com.example.kellynarboux.coach_training.R;
 import com.example.kellynarboux.coach_training.db.AppDatabase;
 import com.example.kellynarboux.coach_training.db.UserViewModel;
-import com.example.kellynarboux.coach_training.model.TimePickerFragment;
+import com.example.kellynarboux.coach_training.fragment.TimePickerFragment;
 import com.example.kellynarboux.coach_training.notification.TrainingTimeReceiver;
 
 import java.lang.ref.WeakReference;

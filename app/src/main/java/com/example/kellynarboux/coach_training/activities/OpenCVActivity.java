@@ -34,7 +34,7 @@ import java.util.Locale;
 
 public class OpenCVActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
-    private static final String TAG = "OPENCV";
+    private static final String TAG = "OPENCV";  // used in toaster
     private static Mat background = null;  // init with the first frame
     private static final double DEFAULT_FILTER = 300.;
     private static final int MIN_FRAME_INTERVAL = 10;
@@ -149,32 +149,21 @@ public class OpenCVActivity extends AppCompatActivity implements CameraBridgeVie
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
 
-        Mat res = inputFrame.rgba();
+        Mat res = inputFrame.rgba();  // the image displayed
         Mat gray = inputFrame.gray();
 
-//        Mat tmp = inputFrame.rgba();
-//        Mat res = tmp.t();
-//        Core.flip(tmp.t(), res, 1);
-//        Imgproc.resize(res, res, res.size());
-//        tmp.release();
-
-//        Mat tmp2 = inputFrame.gray();
-//        Mat gray = tmp2.t();
-//        Core.flip(tmp2.t(), gray, 1);
-//        Imgproc.resize(gray, gray, tmp2.size());
-//        tmp2.release();
-
-
         org.opencv.core.Size s = new Size(21,21);
-        Imgproc.GaussianBlur(gray, gray, s, 0);
+        Imgproc.GaussianBlur(gray, gray, s, 0);  // blur to avoid artifacts
 
-
+        // we initialize background with the first frame
         if(background == null){
             background = new Mat();
             gray.copyTo(background);
             Log.i(TAG, "background initialised");
         }
 
+        // we look for differences between the first frame and the current frame
+        // and store those differences under rectangles
         Core.absdiff(background, gray, gray);
         Imgproc.threshold(gray, gray, 25, 255, Imgproc.THRESH_BINARY);
         //Imgproc.dilate(gray, gray, new Mat());  FIXME
@@ -183,23 +172,24 @@ public class OpenCVActivity extends AppCompatActivity implements CameraBridgeVie
         gray.release();
 
         int nbDetection = 0;
-        double localMinyY = Double.NaN;
+        double localMinY = Double.NaN;
         for(MatOfPoint cnt : cnts){
             if(Imgproc.contourArea(cnt) > filter){
                 nbDetection++;
-                Rect box = Imgproc.boundingRect(cnt);
+                Rect box = Imgproc.boundingRect(cnt);  // we retrieve the stored rectangle
                 Point p1 = new Point(box.x, box.y);
                 Point p2 = new Point(box.x + box.width, box.y + box.height);
+                // draw the rectangle on the screen and check if it's the highest
                 Imgproc.rectangle(res, p1, p2, new Scalar(0, 255, 0), 2);
-                if (Double.isNaN(localMinyY) || p1.y < localMinyY)
-                    localMinyY = p1.y;
+                if (Double.isNaN(localMinY) || p1.y < localMinY)
+                    localMinY = p1.y;
             }
         }
 
         frameDelta++;
         // we process the y value
-        if(!Double.isNaN(localMinyY)) {
-            if (isGrowing && localMinyY > exerciseYMargin + prevY) {
+        if(!Double.isNaN(localMinY)) {
+            if (isGrowing && localMinY > exerciseYMargin + prevY) {
                 nbrFrameDiffUp = 0;
                 nbrFrameDiffDown += 1;
                 if (nbrFrameDiffDown >= FRAME_DIFF_REQUIRED) {
@@ -210,7 +200,7 @@ public class OpenCVActivity extends AppCompatActivity implements CameraBridgeVie
                     Log.i("EXERCISE", "going down");
                     nbrFrameDiffDown = 0;
                 }
-            } else if(!isGrowing && localMinyY + exerciseYMargin < prevY){
+            } else if(!isGrowing && localMinY + exerciseYMargin < prevY){
                 nbrFrameDiffDown = 0;
                 nbrFrameDiffUp += 1;
                 if(nbrFrameDiffUp >= FRAME_DIFF_REQUIRED){
@@ -237,11 +227,11 @@ public class OpenCVActivity extends AppCompatActivity implements CameraBridgeVie
                     onMovementDone();
                 }
             }
-            prevY = localMinyY;
+            prevY = localMinY;
         }
 
         // we adjust parameters for next frames
-        if(nbDetection> 3){
+        if(nbDetection > 3){
             filter *= 1.1;
             Log.d("PARAM", "=> set filter to " + filter + " since too many noise (" +
                     nbDetection + " detections)");

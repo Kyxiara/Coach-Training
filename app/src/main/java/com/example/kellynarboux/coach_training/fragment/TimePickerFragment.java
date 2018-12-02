@@ -1,4 +1,4 @@
-package com.example.kellynarboux.coach_training.model;
+package com.example.kellynarboux.coach_training.fragment;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
